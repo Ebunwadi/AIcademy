@@ -1,24 +1,40 @@
 import React from "react";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route, useLocation } from "react-router-dom";
 
 import HomePage from "./pages/HomePage";
 import StudyBuddyPage from "./pages/StudyBuddyPage";
 import CareerAdvisorPage from "./pages/CareerAdvisorPage";
-import ResearchReviewerPage from "./pages/ResearchReviewerPage";
+import UserProfilePage from "./pages/UserProfilePage";
 import Navbar from "./components/Navbar";
+import Login from "./pages/LoginPage";
+import Signup from "./pages/SignupPage";
 
-function App() {
+const App = () => {
   return (
     <Router>
-      <Navbar />
+      <AppContent />
+    </Router>
+  );
+};
+
+const AppContent = () => {
+  const location = useLocation();
+  const isAuthPage = ["/login", "/signup", "/forgot-password"].includes(location.pathname);
+
+  return (
+    <>
+      {!isAuthPage && <Navbar />}
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/study-buddy" element={<StudyBuddyPage />} />
         <Route path="/career-advisor" element={<CareerAdvisorPage />} />
-        <Route path="/research-reviewer" element={<ResearchReviewerPage />} />
+        <Route path="/update-profile" element={<UserProfilePage />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/signup" element={<Signup />} />
+        {/* <Route path="/forgot-password" element={<ForgotPassword />} /> */}
       </Routes>
-    </Router>
+    </>
   );
-}
+};
 
 export default App;

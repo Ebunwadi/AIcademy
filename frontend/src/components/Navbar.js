@@ -1,40 +1,37 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import axios from "axios";
+import "../styles/Navbar.css"; // Add styling
 
 const Navbar = () => {
+  const navigate = useNavigate();
+
+  const handleLogout = async () => {
+    try {
+      await axios.post("http://localhost:5000/api/auth/logout", {}, { withCredentials: true });
+      navigate("/login");
+    } catch (error) {
+      console.error("Logout failed:", error);
+    }
+  };
+
   return (
-    <nav style={styles.navbar}>
-      <h2 style={styles.logo}>AI Academic Assistant</h2>
-      <ul style={styles.navLinks}>
-        <li><Link to="/" style={styles.link}>Home</Link></li>
-        <li><Link to="/study-buddy" style={styles.link}>Study Buddy</Link></li>
-        <li><Link to="/career-advisor" style={styles.link}>Career Advisor</Link></li>
-        <li><Link to="/research-reviewer" style={styles.link}>Research Reviewer</Link></li>
-      </ul>
+    <nav className="navbar">
+      <div className="navbar-container">
+        <h1 className="navbar-brand">
+          <Link to="/">Academic Assistant</Link>
+        </h1>
+        <div className="navbar-links">
+          <Link to="/study-buddy">Study Buddy</Link>
+          <Link to="/career-advisor">Career Advisor</Link>
+          <Link to="/update-profile">Update Profile</Link>
+        </div>
+        <button className="logout-btn" onClick={handleLogout}>
+          Logout
+        </button>
+      </div>
     </nav>
   );
-};
-
-const styles = {
-  navbar: {
-    display: "flex",
-    justifyContent: "space-between",
-    alignItems: "center",
-    padding: "1rem 2rem",
-    backgroundColor: "#4CAF50",
-    color: "white",
-  },
-  logo: { margin: 0 },
-  navLinks: {
-    listStyle: "none",
-    display: "flex",
-    gap: "1.5rem",
-  },
-  link: {
-    color: "white",
-    textDecoration: "none",
-    fontSize: "1rem",
-  },
 };
 
 export default Navbar;

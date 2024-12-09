@@ -1,0 +1,17 @@
+/* Home Page Styles */
+.home-container {
+    margin-top: 5rem; /* Adjust for fixed navbar height */
+    text-align: center;
+    padding: 2rem;
+  }
+  
+  .home-container h1 {
+    font-size: 2rem;
+    color: #333;
+  }
+  
+  .home-container p {
+    font-size: 1.2rem;
+    color: #555;
+  }
+  

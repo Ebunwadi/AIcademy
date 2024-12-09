@@ -1,0 +1,103 @@
+const prisma = require("@prisma/client").PrismaClient;
+const bcrypt = require("bcrypt");
+const { v4: uuidv4 } = require("uuid");
+
+const prismaClient = new prisma();
+
+// Update user profile
+const updateUserProfile = async (req, res) => {
+  try {
+    const userId = req.user.id; // Assuming req.user is populated via middleware
+    const { nickname, profilePicture } = req.body;
+
+    const updatedUser = await prismaClient.user.update({
+      where: { id: userId },
+      data: {
+        nickname,
+        profilePicture,
+      },
+    });
+
+    res.status(200).json({ message: "Profile updated successfully.", user: updatedUser });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Error updating profile." });
+  }
+};
+
+// Reset password
+const resetPassword = async (req, res) => {
+  try {
+    const { email, newPassword, resetCode } = req.body;
+
+    const user = await prismaClient.user.findUnique({ where: { email } });
+    if (!user) return res.status(404).json({ message: "User not found." });
+
+    if (user.resetCode !== resetCode) {
+      return res.status(400).json({ message: "Invalid reset code." });
+    }
+
+    const hashedPassword = await bcrypt.hash(newPassword, 10);
+
+    await prismaClient.user.update({
+      where: { email },
+      data: {
+        password: hashedPassword,
+        resetCode: null, // Clear the reset code
+      },
+    });
+
+    res.status(200).json({ message: "Password reset successfully." });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Error resetting password." });
+  }
+};
+
+// Send reset code via email
+const sendResetCode = async (req, res) => {
+    try {
+      const { email } = req.body;
+  
+      // Check if the user exists
+      const user = await prismaClient.user.findUnique({ where: { email } });
+      if (!user) return res.status(404).json({ message: "User not found." });
+  
+      // Generate a reset code
+      const resetCode = uuidv4().slice(0, 6); // Generate a 6-character reset code
+      await prismaClient.user.update({
+        where: { email },
+        data: { resetCode },
+      });
+  
+      // Prepare email content
+      const subject = "Your Password Reset Code";
+      const text = `Hello,\n\nYour password reset code is: ${resetCode}\n\nIf you did not request a password reset, please ignore this email.`;
+  
+      // Send the email using the reusable function
+      await sendEmail(email, subject, text);
+  
+      res.status(200).json({ message: "Reset code sent to email." });
+    } catch (error) {
+      console.error("Error sending reset code:", error);
+      res.status(500).json({ message: "Error sending reset code." });
+    }
+  };
+
+  /**
+ * Get the authenticated user's profile.
+ */
+const getUserProfile = async (req, res) => {
+  try {
+    // `req.user` is populated by the authentication middleware
+    const user = req.user;
+    res.status(200).json(user);
+  } catch (error) {
+    console.error("Error fetching user profile:", error);
+    res.status(500).json({ message: "Error fetching user profile." });
+  }
+};
+
+  
+
+module.exports = { updateUserProfile, resetPassword, sendResetCode, getUserProfile };
