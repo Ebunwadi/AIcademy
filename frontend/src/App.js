@@ -4,10 +4,11 @@ import { BrowserRouter as Router, Routes, Route, useLocation } from "react-route
 import HomePage from "./pages/HomePage";
 import StudyBuddyPage from "./pages/StudyBuddyPage";
 import CareerAdvisorPage from "./pages/CareerAdvisorPage";
-import UserProfilePage from "./pages/UserProfilePage";
+// import UserProfilePage from "./pages/UserProfilePage";
 import Navbar from "./components/Navbar";
 import Login from "./pages/LoginPage";
 import Signup from "./pages/SignupPage";
+import ProtectedRoute from "./components/ProtectedRoute";
 
 const App = () => {
   return (
@@ -25,13 +26,43 @@ const AppContent = () => {
     <>
       {!isAuthPage && <Navbar />}
       <Routes>
-        <Route path="/" element={<HomePage />} />
-        <Route path="/study-buddy" element={<StudyBuddyPage />} />
-        <Route path="/career-advisor" element={<CareerAdvisorPage />} />
-        <Route path="/update-profile" element={<UserProfilePage />} />
+      {/* Public Routes */}
         <Route path="/login" element={<Login />} />
-        <Route path="/signup" element={<Signup />} />
-        {/* <Route path="/forgot-password" element={<ForgotPassword />} /> */}
+        <Route path="/signup" element={<Signup/>} />
+        {/* <Route path="/forgot-password" element={<ForgotPasswordPage />} /> */}
+{/* Protected Routes */}
+<Route
+          path="/"
+          element={
+            <ProtectedRoute>
+              <HomePage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/study-buddy"
+          element={
+            <ProtectedRoute>
+              <StudyBuddyPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/career-advisor"
+          element={
+            <ProtectedRoute>
+              <CareerAdvisorPage />
+            </ProtectedRoute>
+          }
+        />
+        {/* <Route
+          path="/update-profile"
+          element={
+            <ProtectedRoute>
+              <UpdateProfilePage />
+            </ProtectedRoute>
+          }
+        /> */}
       </Routes>
     </>
   );

@@ -5,7 +5,7 @@ const {
   sendResetCode,
   getUserProfile,
 } = require("../controllers/userController");
-const protectRoute = require("../middleware/authMiddleware"); // Middleware for authentication
+const protectRoute = require("../middlewares/authMiddleware"); // Middleware for authentication
 
 const router = express.Router();
 

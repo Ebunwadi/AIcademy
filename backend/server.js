@@ -1,10 +1,10 @@
 require("dotenv").config();
 const express = require("express");
 const cors = require("cors");
-const uploadRoutes = require("./routes/uploadRoutes");
+const cookieParser = require("cookie-parser");
 const authRoutes = require("./routes/authRoutes");
 const userRoutes = require("./routes/userRoutes");
-const cookieParser = require("cookie-parser");
+const noteRoutes = require("./routes/noteRoutes");
 
 const app = express();
 // Allow requests from the frontend 
@@ -17,9 +17,9 @@ app.use(express.json());
 app.use(cors(corsOptions));
 app.use(cookieParser());
 app.use("/uploads", express.static("uploads")); // Serve uploaded files
-app.use("/api/upload", uploadRoutes);
 app.use("/api/auth", authRoutes);
 app.use("/api/user", userRoutes);
+app.use("/api/notes", noteRoutes);
 
 
 // Server

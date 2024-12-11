@@ -6,14 +6,14 @@
     left: 0;
     width: 100%;
     background-color: #4caf50; /* Green-like color for consistency */
-    padding: 1rem 2rem;
+    padding: 0.5rem 1rem; /* Reduced height */
     box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
     z-index: 1000;
   }
   
   .navbar-container {
     display: flex;
-    justify-content: space-between;
+    justify-content: space-between; /* Space between brand and links/buttons */
     align-items: center;
     max-width: 1200px;
     margin: 0 auto;
@@ -21,15 +21,20 @@
   
   .navbar-brand a {
     text-decoration: none;
-    font-size: 1.5rem;
+    font-size: 1.2rem;
     color: white;
     font-weight: bold;
-    /* width: 600px; */
+  }
+  
+  .navbar-right {
+    display: flex;
+    gap: 1.5rem; /* Space between links and logout button */
+    align-items: center;
   }
   
   .navbar-links {
     display: flex;
-    gap: 3rem;
+    gap: 1rem; /* Reduced gap between links */
   }
   
   .navbar-links a {
@@ -46,16 +51,16 @@
   .logout-btn {
     background-color: white;
     color: #4caf50;
-    border: 1px solid white;
-    padding: 0.5rem 1rem;
+    border: none;
+    padding: 0.4rem 1rem;
     border-radius: 4px;
-    font-size: 1rem;
+    font-size: 0.9rem;
     cursor: pointer;
-    transition: all 0.3s ease;
+    transition: background-color 0.3s ease, transform 0.2s ease;
   }
   
   .logout-btn:hover {
     background-color: #cce7cc;
-    color: #4caf50;
+    transform: scale(1.05);
   }
   
