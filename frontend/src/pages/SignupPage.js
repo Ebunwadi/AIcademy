@@ -3,7 +3,7 @@ import axios from "axios";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import "../styles/AuthPage.css"; // Styles include the updated green background
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 
 const Signup = () => {
@@ -70,6 +70,10 @@ const Signup = () => {
         />
         <button type="submit" className="btn-primary">Sign Up</button>
       </form>
+      <div className="signup">
+        <p>Already have an account?</p>
+          <Link to="/login" className="btn-secondary">Sign In</Link>
+        </div>
       </div>
       <ToastContainer />
     </div>

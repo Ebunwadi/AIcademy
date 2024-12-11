@@ -1,10 +1,24 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import "../styles/Navbar.css";
 
 const Navbar = () => {
   const navigate = useNavigate();
+  const [userProfilePic, setUserProfilePic] = useState(null);
+
+  useEffect(() => {
+    const fetchUserProfile = async () => {
+      try {
+        const response = await axios.get("http://localhost:5000/api/user/me", { withCredentials: true });         
+        setUserProfilePic(response.data.profilePicture || null);
+      } catch (error) {
+        console.error("Error fetching user profile:", error);
+      }
+    };
+
+    fetchUserProfile();
+  }, []);
 
   const handleLogout = async () => {
     try {
@@ -18,10 +32,17 @@ const Navbar = () => {
   return (
     <nav className="navbar">
       <div className="navbar-container">
-        {/* Brand Logo */}
-        <h1 className="navbar-brand">
+        {/* Brand Logo and Profile Picture */}
+        <div className="navbar-brand">          
+          {userProfilePic && (
+            <img
+              src={`http://localhost:5000/${userProfilePic}`}
+              alt="Profile"
+              className="navbar-profile-pic"
+            />
+          )}
           <Link to="/">Academic Assistant</Link>
-        </h1>
+        </div>
 
         {/* Links and Logout */}
         <div className="navbar-right">

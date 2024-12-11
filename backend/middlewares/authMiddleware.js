@@ -25,14 +25,7 @@ const protectRoute = async (req, res, next) => {
     }
 
     // Populate req.user with user data
-    req.user = {
-      id: user.id,
-      firstName: user.firstName,
-      lastName: user.lastName,
-      email: user.email,
-      nickname: user.nickname,
-    };
-
+    req.user = user
     next(); // Proceed to the next middleware or route handler
   } catch (error) {
     console.error("Error in authentication middleware:", error);

@@ -1,29 +1,44 @@
 const prisma = require("@prisma/client").PrismaClient;
 const bcrypt = require("bcrypt");
 const { v4: uuidv4 } = require("uuid");
+const sendEmail = require("../helpers/sendEmail");
 
 const prismaClient = new prisma();
 
 // Update user profile
 const updateUserProfile = async (req, res) => {
   try {
-    const userId = req.user.id; // Assuming req.user is populated via middleware
-    const { nickname, profilePicture } = req.body;
+    const userId = req.user?.id; // Assuming req.user is populated by middleware
+    if (!userId) {
+      return res.status(401).json({ message: "Unauthorized." });
+    }
 
+    const { nickname } = req.body;
+    const profilePicture = req.file?.path; // File path from multer
+
+    // Prepare update data
+    const updateData = {};
+    if (nickname) updateData.nickname = nickname;
+    if (profilePicture) updateData.profilePicture = profilePicture;
+
+    // Check if there's anything to update
+    if (Object.keys(updateData).length === 0) {
+      return res.status(200).json({ message: "No changes made. Profile is up-to-date." });
+    }
+
+    // Perform the update
     const updatedUser = await prismaClient.user.update({
       where: { id: userId },
-      data: {
-        nickname,
-        profilePicture,
-      },
+      data: updateData,
     });
 
     res.status(200).json({ message: "Profile updated successfully.", user: updatedUser });
   } catch (error) {
-    console.error(error);
+    console.error("Error updating profile:", error);
     res.status(500).json({ message: "Error updating profile." });
   }
 };
+
 
 // Reset password
 const resetPassword = async (req, res) => {
@@ -72,7 +87,7 @@ const sendResetCode = async (req, res) => {
   
       // Prepare email content
       const subject = "Your Password Reset Code";
-      const text = `Hello,\n\nYour password reset code is: ${resetCode}\n\nIf you did not request a password reset, please ignore this email.`;
+      const text = `Hello,\n\nYour password reset code is: ${resetCode}\n\nIf you did not request a password reset, please ignore this email. \n\nclick on this link to reset your password and fill in the reset code. http:localhost:3000/reset-password`;
   
       // Send the email using the reusable function
       await sendEmail(email, subject, text);

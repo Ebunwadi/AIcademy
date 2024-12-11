@@ -1,66 +1,85 @@
 /* Navbar Styles */
-
 .navbar {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    background-color: #4caf50; /* Green-like color for consistency */
-    padding: 0.5rem 1rem; /* Reduced height */
-    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
-    z-index: 1000;
-  }
-  
-  .navbar-container {
-    display: flex;
-    justify-content: space-between; /* Space between brand and links/buttons */
-    align-items: center;
-    max-width: 1200px;
-    margin: 0 auto;
-  }
-  
-  .navbar-brand a {
-    text-decoration: none;
-    font-size: 1.2rem;
-    color: white;
-    font-weight: bold;
-  }
-  
-  .navbar-right {
-    display: flex;
-    gap: 1.5rem; /* Space between links and logout button */
-    align-items: center;
-  }
-  
-  .navbar-links {
-    display: flex;
-    gap: 1rem; /* Reduced gap between links */
-  }
-  
-  .navbar-links a {
-    text-decoration: none;
-    font-size: 1rem;
-    color: white;
-    transition: color 0.3s ease;
-  }
-  
-  .navbar-links a:hover {
-    color: #cce7cc; /* Lighter shade of green */
-  }
-  
-  .logout-btn {
-    background-color: white;
-    color: #4caf50;
-    border: none;
-    padding: 0.4rem 1rem;
-    border-radius: 4px;
-    font-size: 0.9rem;
-    cursor: pointer;
-    transition: background-color 0.3s ease, transform 0.2s ease;
-  }
-  
-  .logout-btn:hover {
-    background-color: #cce7cc;
-    transform: scale(1.05);
-  }
-  
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  background-color: #4caf50; /* Green-like color for consistency */
+  padding: 0.5rem 1rem; /* Reduced height */
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+}
+
+.navbar-container {
+  display: flex;
+  justify-content: space-between; /* Space between brand and links/buttons */
+  align-items: center;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/* Brand Logo and Profile Picture */
+.navbar-brand {
+  display: flex;
+  align-items: center; /* Align items vertically */
+  gap: 10px; /* Space between profile picture and text */
+}
+
+.navbar-brand img.navbar-profile-pic {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.navbar-brand a {
+  text-decoration: none;
+  font-size: 1.2rem;
+  color: white;
+  font-weight: bold;
+  line-height: 1; /* Ensure proper vertical alignment */
+}
+
+/* Navbar Right Section */
+.navbar-right {
+  display: flex;
+  gap: 1.5rem; /* Space between links and logout button */
+  align-items: center; /* Align items vertically */
+}
+
+.navbar-links {
+  display: flex;
+  gap: 1rem; /* Reduced gap between links */
+}
+
+.navbar-links a {
+  text-decoration: none;
+  font-size: 1rem;
+  color: white;
+  transition: color 0.3s ease;
+}
+
+.navbar-links a:hover {
+  color: #cce7cc; /* Lighter shade of green */
+}
+
+/* Logout Button */
+.logout-btn {
+  background-color: white;
+  color: #4caf50;
+  border: none;
+  padding: 0.4rem 1rem;
+  border-radius: 4px;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  display: flex;
+  align-items: center; /* Ensure text inside the button is centered */
+  justify-content: center; /* Center text horizontally */
+  margin-bottom: 1rem;
+}
+
+.logout-btn:hover {
+  background-color: #cce7cc;
+  transform: scale(1.05);
+}

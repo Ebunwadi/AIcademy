@@ -4,11 +4,13 @@ import { BrowserRouter as Router, Routes, Route, useLocation } from "react-route
 import HomePage from "./pages/HomePage";
 import StudyBuddyPage from "./pages/StudyBuddyPage";
 import CareerAdvisorPage from "./pages/CareerAdvisorPage";
-// import UserProfilePage from "./pages/UserProfilePage";
+import UserProfilePage from "./pages/UserProfilePage";
 import Navbar from "./components/Navbar";
 import Login from "./pages/LoginPage";
 import Signup from "./pages/SignupPage";
 import ProtectedRoute from "./components/ProtectedRoute";
+import ForgotPasswordPage from "./pages/ForgotPasswordPage";
+import ResetPasswordPage from "./pages/ResetPasswordPage";
 
 const App = () => {
   return (
@@ -29,7 +31,8 @@ const AppContent = () => {
       {/* Public Routes */}
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup/>} />
-        {/* <Route path="/forgot-password" element={<ForgotPasswordPage />} /> */}
+        <Route path="/forgot-password" element={<ForgotPasswordPage />} />
+        <Route path="/reset-password" element={<ResetPasswordPage />} />
 {/* Protected Routes */}
 <Route
           path="/"
@@ -55,14 +58,14 @@ const AppContent = () => {
             </ProtectedRoute>
           }
         />
-        {/* <Route
+        <Route
           path="/update-profile"
           element={
             <ProtectedRoute>
-              <UpdateProfilePage />
+              <UserProfilePage />
             </ProtectedRoute>
           }
-        /> */}
+        />
       </Routes>
     </>
   );

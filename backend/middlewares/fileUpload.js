@@ -14,21 +14,9 @@ const storage = multer.diskStorage({
   },
 });
 
-// Multer file filter to handle unsupported file types
-const fileFilter = (req, file, cb) => {
-  const allowedFileTypes = [".pdf", ".ppt", ".pptx", ".doc", ".docx"];
-  const fileType = path.extname(file.originalname).toLowerCase();
-  if (allowedFileTypes.includes(fileType)) {
-    cb(null, true); // Accept the file
-  } else {
-    cb(new Error("Unsupported file type. Only PDF, PPT, and DOC files are allowed."), false); // Reject the file
-  }
-};
-
 // Multer instance
 const upload = multer({
   storage,
-  fileFilter,
   limits: {
     fileSize: 10 * 1024 * 1024, // Limit file size to 10MB
   },
