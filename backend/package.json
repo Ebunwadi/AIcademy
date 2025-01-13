@@ -25,6 +25,7 @@
     "nodemailer": "^6.9.16",
     "openai": "^4.75.0",
     "pdf-parse": "^1.1.1",
+    "puppeteer": "^23.11.1",
     "textract": "^2.5.0",
     "uuid": "^11.0.3"
   },

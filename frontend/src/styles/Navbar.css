@@ -14,6 +14,8 @@
   display: flex;
   justify-content: space-between; /* Space between brand and links/buttons */
   align-items: center;
+  width: 100%; /* Ensure navbar container spans full width */
+  max-width: none; /* Remove any max-width constraints */
   max-width: 1200px;
   margin: 0 auto;
 }

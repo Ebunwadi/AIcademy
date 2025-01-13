@@ -1,0 +1,109 @@
+/* Ensure enough space at the top to avoid content being hidden */
+body {
+  margin: 0;
+  padding: 0;
+}
+
+/* Adjust the page container with padding-top to make room for the navbar or any top content */
+/* Career Advisor Content Container */
+.career-advisor-container {
+  max-width: 700px;
+  margin-top: 100px;
+  padding: 2rem;
+  text-align: center;
+  background-color: #f5f7fa;
+  border-radius: 10px;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+  padding-top: 80px; /* Add padding to make room for the navbar */
+  max-height: calc(100vh - 100px); /* Ensure the container doesn't exceed the screen height */
+  overflow-y: auto; /* Makes the content scrollable */
+}
+
+/* Title styles */
+.career-advisor-container h1 {
+  color: #4caf50;
+}
+
+/* Description styles */
+.career-advisor-container p {
+  color: #555;
+  margin-bottom: 2rem;
+}
+
+/* Career advisor form styles */
+.career-advisor-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.career-advisor-form label {
+  text-align: left;
+  font-weight: bold;
+  color: #333;
+}
+
+/* Button primary styles */
+button.btn-primary {
+  background-color: #4caf50;
+  color: white;
+  padding: 0.8rem 1.5rem;
+  border: none;
+  border-radius: 5px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+button.btn-primary:hover {
+  background-color: #3e8e41;
+  transform: scale(1.05);
+}
+
+/* Results section styles */
+.results-section {
+  margin-top: 2rem;
+  padding: 1rem;
+  text-align: left;
+}
+
+.results-section h3 {
+  color: #4caf50;
+}
+
+/* Button secondary styles */
+button.btn-secondary {
+  background-color: #007bff;
+  color: white;
+  padding: 0.8rem 1.5rem;
+  margin: 1rem 0.5rem;
+  border: none;
+  border-radius: 5px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+button.btn-secondary:hover {
+  background-color: #0056b3;
+  transform: scale(1.05);
+}
+
+/* Spinner animation */
+.spinner {
+  border: 4px solid #f3f3f3;
+  border-top: 4px solid #4caf50;
+  border-radius: 50%;
+  width: 16px;
+  height: 16px;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}

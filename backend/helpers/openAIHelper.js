@@ -1,4 +1,5 @@
 const { OpenAI } = require("openai");
+const puppeteer = require('puppeteer');
 
 // Initialize OpenAI API
 const openai = new OpenAI({
@@ -62,4 +63,30 @@ const generateQuiz = async (aiSummary) => {
   }
 };
 
-module.exports = { generateSummary, generateQuiz };
+/**
+ * Generate quiz questions based on AI summary.
+ * @param {string} aiSummary - AI summary text.
+ * @returns {Promise<string>} - Generated quiz content.
+ */
+const generateCareerAdvice = async (educationLevel, experienceLevel, industry, jobRole) => {
+  try { 
+    const response = await openai.chat.completions.create({
+      model: "gpt-4o",
+      messages: [
+        {
+          role: "system",
+          content: "You are a career advisor",
+        },
+        { role: "user", content: `Based on a person with the following profile: Education Level: ${educationLevel} Experience Level: ${experienceLevel} Industry: ${industry} Please provide personalized career advice for someone pursuing the job role of ${jobRole} in 150 words or less.` },
+      ],
+      max_tokens: 300,
+    });
+    return response.choices[0].message.content.trim();
+  } catch (error) {
+    console.error("Error generating quiz:", error);
+    throw new Error("Failed to generate quiz.");
+  }
+};
+
+
+module.exports = { generateSummary, generateQuiz, generateCareerAdvice };

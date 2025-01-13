@@ -113,6 +113,4 @@ const getUserProfile = async (req, res) => {
   }
 };
 
-  
-
 module.exports = { updateUserProfile, resetPassword, sendResetCode, getUserProfile };

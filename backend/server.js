@@ -5,6 +5,7 @@ const cookieParser = require("cookie-parser");
 const authRoutes = require("./routes/authRoutes");
 const userRoutes = require("./routes/userRoutes");
 const noteRoutes = require("./routes/noteRoutes");
+const careerRoutes = require("./routes/careerRoutes");
 
 const app = express();
 // Allow requests from the frontend 
@@ -20,6 +21,7 @@ app.use("/uploads", express.static("uploads")); // Serve uploaded files
 app.use("/api/auth", authRoutes);
 app.use("/api/user", userRoutes);
 app.use("/api/notes", noteRoutes);
+app.use("/api/career", careerRoutes);
 
 
 // Server
