@@ -7,6 +7,7 @@ import "../styles/AuthPage.css"; // Styles include the updated green background
 
 const Login = () => {
   const [formData, setFormData] = useState({ email: "", password: "" });
+    const [loading, setLoading] = useState(false); // Loading state for spinner
   const navigate = useNavigate();
 
   const handleChange = (e) => {
@@ -16,12 +17,15 @@ const Login = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setLoading(true); // Start the spinner
     try {
-      await axios.post("http://localhost:5000/api/auth/login", formData, { withCredentials: true });
+      await axios.post("http://localhost:5002/api/auth/login", formData, { withCredentials: true });
       toast.success("Login successful!");
       navigate("/"); // Redirect to home/dashboard
     } catch (error) {
       toast.error(error.response?.data?.message || "Login failed.");
+    } finally {
+      setLoading(false)
     }
   };
 
@@ -52,7 +56,8 @@ const Login = () => {
             placeholder="Enter your password"
           />
 
-          <button type="submit" className="btn-primary">Log In</button>
+          <button type="submit" disabled={loading}  className="btn-primary">Log In</button>
+          {loading && <div className="spinner"></div>}
         </form>
 
         <div className="auth-actions">

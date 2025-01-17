@@ -23,7 +23,9 @@ const updateUserProfile = async (req, res) => {
 
     // Check if there's anything to update
     if (Object.keys(updateData).length === 0) {
-      return res.status(200).json({ message: "No changes made. Profile is up-to-date." });
+      return res
+        .status(200)
+        .json({ message: "No changes made. Profile is up-to-date." });
     }
 
     // Perform the update
@@ -32,13 +34,14 @@ const updateUserProfile = async (req, res) => {
       data: updateData,
     });
 
-    res.status(200).json({ message: "Profile updated successfully.", user: updatedUser });
+    res
+      .status(200)
+      .json({ message: "Profile updated successfully.", user: updatedUser });
   } catch (error) {
     console.error("Error updating profile:", error);
     res.status(500).json({ message: "Error updating profile." });
   }
 };
-
 
 // Reset password
 const resetPassword = async (req, res) => {
@@ -71,35 +74,35 @@ const resetPassword = async (req, res) => {
 
 // Send reset code via email
 const sendResetCode = async (req, res) => {
-    try {
-      const { email } = req.body;
-  
-      // Check if the user exists
-      const user = await prismaClient.user.findUnique({ where: { email } });
-      if (!user) return res.status(404).json({ message: "User not found." });
-  
-      // Generate a reset code
-      const resetCode = uuidv4().slice(0, 6); // Generate a 6-character reset code
-      await prismaClient.user.update({
-        where: { email },
-        data: { resetCode },
-      });
-  
-      // Prepare email content
-      const subject = "Your Password Reset Code";
-      const text = `Hello,\n\nYour password reset code is: ${resetCode}\n\nIf you did not request a password reset, please ignore this email. \n\nclick on this link to reset your password and fill in the reset code. http:localhost:3000/reset-password`;
-  
-      // Send the email using the reusable function
-      await sendEmail(email, subject, text);
-  
-      res.status(200).json({ message: "Reset code sent to email." });
-    } catch (error) {
-      console.error("Error sending reset code:", error);
-      res.status(500).json({ message: "Error sending reset code." });
-    }
-  };
+  try {
+    const { email } = req.body;
 
-  /**
+    // Check if the user exists
+    const user = await prismaClient.user.findUnique({ where: { email } });
+    if (!user) return res.status(404).json({ message: "User not found." });
+
+    // Generate a reset code
+    const resetCode = uuidv4().slice(0, 6); // Generate a 6-character reset code
+    await prismaClient.user.update({
+      where: { email },
+      data: { resetCode },
+    });
+
+    // Prepare email content
+    const subject = "Your Password Reset Code";
+    const text = `Hello,\n\nYour password reset code is: ${resetCode}\n\nIf you did not request a password reset, please ignore this email. \n\nclick on this link to reset your password and fill in the reset code. http:localhost:3000/reset-password`;
+
+    // Send the email using the reusable function
+    await sendEmail(email, subject, text);
+
+    res.status(200).json({ message: "Reset code sent to email." });
+  } catch (error) {
+    console.error("Error sending reset code:", error);
+    res.status(500).json({ message: "Error sending reset code." });
+  }
+};
+
+/**
  * Get the authenticated user's profile.
  */
 const getUserProfile = async (req, res) => {
@@ -113,4 +116,9 @@ const getUserProfile = async (req, res) => {
   }
 };
 
-module.exports = { updateUserProfile, resetPassword, sendResetCode, getUserProfile };
+module.exports = {
+  updateUserProfile,
+  resetPassword,
+  sendResetCode,
+  getUserProfile,
+};

@@ -10,7 +10,7 @@ const Navbar = () => {
   useEffect(() => {
     const fetchUserProfile = async () => {
       try {
-        const response = await axios.get("http://localhost:5000/api/user/me", { withCredentials: true });         
+        const response = await axios.get("http://localhost:5000/api/user/me", { withCredentials: true });
         setUserProfilePic(response.data.profilePicture || null);
       } catch (error) {
         console.error("Error fetching user profile:", error);
@@ -22,7 +22,7 @@ const Navbar = () => {
 
   const handleLogout = async () => {
     try {
-      await axios.post("http://localhost:5000/api/auth/logout", {}, { withCredentials: true });
+      await axios.post("http://localhost:5002/api/auth/logout", {}, { withCredentials: true });
       navigate("/login");
     } catch (error) {
       console.error("Logout failed:", error);
@@ -33,10 +33,10 @@ const Navbar = () => {
     <nav className="navbar">
       <div className="navbar-container">
         {/* Brand Logo and Profile Picture */}
-        <div className="navbar-brand">          
+        <div className="navbar-brand">
           {userProfilePic && (
             <img
-              src={`http://localhost:5000/${userProfilePic}`}
+              src={`http://localhost:5002/${userProfilePic}`}
               alt="Profile"
               className="navbar-profile-pic"
             />

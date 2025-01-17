@@ -79,9 +79,6 @@ def predict_job_role():
         }
         # Send POST request to Express app to get career advice
         response = requests.post('http://localhost:5000/api/career/generate-career-advice', json=career_advice_data)
-                # Debugging: Log the response status code and body
-        print(f"Express API response status code: {response.status_code}")
-        print(f"Express API response body: {response.text}")
         if response.status_code == 200:
             career_advice = response.json().get('career_advice', 'No career advice available.')
         else:

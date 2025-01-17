@@ -13,28 +13,11 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model User {
-  id             String   @id @default(uuid())
-  firstName      String
-  lastName       String
-  email          String   @unique
-  password       String
-  nickname       String?
-  profilePicture String?
-  resetCode      String?
-  createdAt      DateTime @default(now())
-  updatedAt      DateTime @updatedAt
-
-  notes          Note[]
-}
-
 model Note {
   id         String   @id @default(uuid())
-  userId     String
+  userId     String   // Foreign key coming from the .NET users service
   title      String
   filePath   String
   aiSummary  String?
   createdAt  DateTime @default(now())
-
-  user       User     @relation(fields: [userId], references: [id])
 }

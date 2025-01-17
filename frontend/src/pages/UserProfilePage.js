@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom"; // Import navigate hook
 import axios from "axios";
 import { toast, ToastContainer } from "react-toastify";
@@ -8,16 +8,30 @@ import "../styles/UserProfile.css";
 const UserProfile = () => {
   const [nickname, setNickname] = useState("");
   const [profilePicture, setProfilePicture] = useState(null);
-  const navigate = useNavigate(); // Initialize navigate hook
+  const [user, setUser] = useState(null);
+  const navigate = useNavigate();
 
+  useEffect(() => {
+    const fetchUser = async () => {
+      try {
+        const response = await axios.get("http://localhost:5000/api/user/me", { withCredentials: true }); // Fetch user data
+        setUser(response.data);
+      } catch (error) {
+        console.log(error);
+        navigate("/login"); // Redirect to login if unauthenticated
+      }
+    };
+    fetchUser();
+  }, [navigate]);
   const handleUpdateProfile = async (e) => {
     e.preventDefault();
     try {
       const formData = new FormData();
-      formData.append("nickname", nickname);
-      formData.append("profilePicture", profilePicture);
+      formData.append("NickName", nickname);
+      formData.append("ProfilePicture", profilePicture);
+      formData.append("UserID", user.userID);
 
-      await axios.put("http://localhost:5000/api/user/update", formData, {
+      await axios.put("http://localhost:5002/api/user/update", formData, {
         headers: { "Content-Type": "multipart/form-data" },
         withCredentials: true,
       });
@@ -32,6 +46,8 @@ const UserProfile = () => {
       // Redirect to home page
       navigate("/");
     } catch (error) {
+      console.log(error);
+      
       toast.error("Error updating profile.");
     }
   };

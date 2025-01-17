@@ -8,8 +8,11 @@ const signup = async (req, res) => {
     const { firstName, lastName, email, password } = req.body;
 
     // Check if the user already exists
-    const existingUser = await prismaClient.user.findUnique({ where: { email } });
-    if (existingUser) return res.status(400).json({ message: "User already exists." });
+    const existingUser = await prismaClient.user.findUnique({
+      where: { email },
+    });
+    if (existingUser)
+      return res.status(400).json({ message: "User already exists." });
 
     // Hash the password
     const hashedPassword = await bcrypt.hash(password, 10);
@@ -36,13 +39,20 @@ const login = async (req, res) => {
 
     // Compare the password
     const isMatch = await bcrypt.compare(password, user.password);
-    if (!isMatch) return res.status(400).json({ message: "Invalid credentials." });
+    if (!isMatch)
+      return res.status(400).json({ message: "Invalid credentials." });
 
     // Generate a JWT
-    const token = jwt.sign({ id: user.id }, process.env.JWT_SECRET, { expiresIn: "1h" });
+    const token = jwt.sign({ id: user.id }, process.env.JWT_SECRET, {
+      expiresIn: "1h",
+    });
 
     // Set the token as an HTTP-only cookie
-    res.cookie("token", token, { httpOnly: true, secure: process.env.NODE_ENV === "production", sameSite: "strict" });
+    res.cookie("token", token, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
+      sameSite: "strict",
+    });
     res.status(200).json({ message: "Logged in successfully." });
   } catch (error) {
     console.error(error);

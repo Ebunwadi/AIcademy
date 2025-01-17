@@ -15,14 +15,14 @@ const ForgotPasswordPage = () => {
     setLoading(true); // Start loading spinner
 
     try {
-      await axios.post("http://localhost:5000/api/user/send-reset-code", { email });
-      toast.success("Reset code sent to your email. Redirecting to login...");
+      await axios.post("http://localhost:5002/api/users/send-reset-code", { email });
+      toast.success("Reset code sent to your email. Redirecting to reset password page...");
       // Clear form
       setEmail("");
 
       // Redirect to login after a delay
       setTimeout(() => {
-        navigate("/login");
+        navigate("/reset-password");
       }, 2000);
     } catch (error) {
       toast.error(error.response?.data?.message || "Error sending reset code.");

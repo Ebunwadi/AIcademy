@@ -25,7 +25,7 @@ const ResetPasswordPage = () => {
     setLoading(true); // Start loading spinner
 
     try {
-      await axios.post("http://localhost:5000/api/user/reset-password", {
+      await axios.post("http://localhost:5002/api/users/reset-password", {
         email,
         resetCode,
         newPassword,

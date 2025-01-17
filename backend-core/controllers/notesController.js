@@ -1,5 +1,5 @@
 const path = require("path");
-const fs = require("fs")
+const fs = require("fs");
 const chunkText = require("../helpers/chunkHelper");
 const extractText = require("../helpers/extractTextHelper");
 const { generateSummary, generateQuiz } = require("../helpers/openAIHelper");
@@ -18,7 +18,7 @@ const uploadAndSummarize = async (req, res) => {
 
     const filePath = req.file.path;
     const fileType = path.extname(req.file.filename);
-    const userId = req.user.id;
+    const userId = req.user.userID;
 
     // Extract text from the file
     const extractedText = await extractText(filePath, fileType);
@@ -43,7 +43,9 @@ const uploadAndSummarize = async (req, res) => {
     });
   } catch (error) {
     console.error("Error processing file:", error);
-    res.status(500).json({ message: "Error processing file", error: error.message });
+    res
+      .status(500)
+      .json({ message: "Error processing file", error: error.message });
   }
 };
 
@@ -52,7 +54,7 @@ const uploadAndSummarize = async (req, res) => {
  */
 const getAllNotes = async (req, res) => {
   try {
-    const userId = req.user.id;
+    const userId = req.user.userID;
 
     const notes = await prismaClient.note.findMany({
       where: { userId },
@@ -71,7 +73,9 @@ const getAllNotes = async (req, res) => {
     res.status(200).json({ notes });
   } catch (error) {
     console.error("Error fetching notes:", error);
-    res.status(500).json({ message: "Error fetching notes.", error: error.message });
+    res
+      .status(500)
+      .json({ message: "Error fetching notes.", error: error.message });
   }
 };
 
@@ -100,7 +104,9 @@ const getSingleNote = async (req, res) => {
     res.status(200).json({ note });
   } catch (error) {
     console.error("Error fetching the note:", error);
-    res.status(500).json({ message: "Error fetching the note.", error: error.message });
+    res
+      .status(500)
+      .json({ message: "Error fetching the note.", error: error.message });
   }
 };
 
@@ -120,8 +126,10 @@ const deleteNote = async (req, res) => {
     }
 
     // Ensure the user owns the note
-    if (note.userId !== req.user.id) {
-      return res.status(403).json({ message: "You do not have permission to delete this note." });
+    if (note.userId !== req.user.userID) {
+      return res
+        .status(403)
+        .json({ message: "You do not have permission to delete this note." });
     }
 
     // Delete the file from the filesystem
@@ -136,7 +144,9 @@ const deleteNote = async (req, res) => {
     res.status(200).json({ message: "Note deleted successfully." });
   } catch (error) {
     console.error("Error deleting the note:", error);
-    res.status(500).json({ message: "Error deleting the note.", error: error.message });
+    res
+      .status(500)
+      .json({ message: "Error deleting the note.", error: error.message });
   }
 };
 
@@ -161,7 +171,9 @@ const generateQuizForNote = async (req, res) => {
     res.status(200).json({ quiz });
   } catch (error) {
     console.error("Error generating quiz:", error);
-    res.status(500).json({ message: "Error generating quiz.", error: error.message });
+    res
+      .status(500)
+      .json({ message: "Error generating quiz.", error: error.message });
   }
 };
 

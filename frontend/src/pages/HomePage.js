@@ -17,7 +17,6 @@ const HomePage = () => {
         navigate("/login"); // Redirect to login if unauthenticated
       }
     };
-
     fetchUser();
   }, [navigate]);
 
