@@ -22,9 +22,7 @@ const protectRoute = async (req, res, next) => {
 
     // Call the .NET API to get user details
     const dotNetApiUrl = `${process.env.USER_SERVICE_URL}/api/users/${decoded.nameid}`;
-    const userResponse = await axios.get(dotNetApiUrl);
-    console.log(userResponse);
-    
+    const userResponse = await axios.get(dotNetApiUrl);    
 
     if (userResponse.status !== 200 || !userResponse.data) {
       return res.status(404).json({ message: "User not found" });

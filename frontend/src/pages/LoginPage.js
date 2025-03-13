@@ -22,7 +22,9 @@ const Login = () => {
       await axios.post(
         "https://backend-users20250313164401.azurewebsites.net/api/auth/login",
         formData,
-        { withCredentials: true }
+        {
+          withCredentials: true,
+        }
       );
       toast.success("Login successful!");
       navigate("/"); // Redirect to home/dashboard
