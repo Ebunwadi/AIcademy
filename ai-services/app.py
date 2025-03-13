@@ -1,3 +1,4 @@
+import os
 import joblib
 from flask import Flask, request, jsonify
 import pandas as pd
@@ -94,4 +95,6 @@ def predict_job_role():
     })
 
 if __name__ == '__main__':
-    app.run()  # Flask will run on port 5001
+    port = int(os.environ.get("PORT", 5000))
+    app.run(host='0.0.0.0', port=port)
+
