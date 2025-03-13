@@ -10,7 +10,9 @@ const ProtectedRoute = ({ children }) => {
       try {
         await axios.get(
           "https://aicademy-core-backend.onrender.com/api/user/me",
-          { withCredentials: true }
+          {
+            withCredentials: true,
+          }
         );
         setAuthenticated(true);
       } catch {

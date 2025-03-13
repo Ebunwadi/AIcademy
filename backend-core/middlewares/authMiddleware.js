@@ -8,7 +8,8 @@ const protectRoute = async (req, res, next) => {
   try {
     // Get token from cookies
     const token = req.cookies.token;
-
+    console.log("token", token);
+    
     if (!token) {
       return res
         .status(401)

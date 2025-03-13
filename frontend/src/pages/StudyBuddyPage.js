@@ -19,7 +19,9 @@ const StudyBuddyPage = () => {
     try {
       const response = await axios.get(
         "https://aicademy-core-backend.onrender.com/api/notes",
-        { withCredentials: true }
+        {
+          withCredentials: true,
+        }
       );
       setNotes(response.data.notes);
     } catch (error) {
@@ -68,7 +70,9 @@ const StudyBuddyPage = () => {
     try {
       await axios.delete(
         `https://aicademy-core-backend.onrender.com/api/notes/${noteId}`,
-        { withCredentials: true }
+        {
+          withCredentials: true,
+        }
       );
       toast.success("Note deleted successfully!", { position: "top-center" });
       fetchNotes(); // Refresh the notes list
