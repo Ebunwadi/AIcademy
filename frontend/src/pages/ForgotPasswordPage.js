@@ -16,7 +16,7 @@ const ForgotPasswordPage = () => {
 
     try {
       await axios.post(
-        "https://backend-users20250313164401.azurewebsites.net/api/users/send-reset-code",
+        "https://backend-users20250313221512.azurewebsites.net/api/users/send-reset-code",
         {
           email,
         }

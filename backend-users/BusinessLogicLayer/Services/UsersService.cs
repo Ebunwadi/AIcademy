@@ -139,8 +139,8 @@ namespace BusinessLogicLayer.Services
             context.Response.Cookies.Append("token", token, new CookieOptions
             {
                 HttpOnly = true,
-                Secure = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") == "Production",
-                SameSite = SameSiteMode.Strict,
+                Secure = false,
+                SameSite = SameSiteMode.None,
                 Expires = DateTime.UtcNow.AddHours(1)
             });
         }

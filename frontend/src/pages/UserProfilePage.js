@@ -37,7 +37,7 @@ const UserProfile = () => {
       formData.append("UserID", user.userID);
 
       await axios.put(
-        "https://backend-users20250313164401.azurewebsites.net/api/user/update",
+        "https://backend-users20250313221512.azurewebsites.net/api/user/update",
         formData,
         {
           headers: { "Content-Type": "multipart/form-data" },

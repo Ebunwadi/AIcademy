@@ -28,7 +28,7 @@ const Navbar = () => {
   const handleLogout = async () => {
     try {
       await axios.post(
-        "https://backend-users20250313164401.azurewebsites.net/api/auth/logout",
+        "https://backend-users20250313221512.azurewebsites.net/api/auth/logout",
         {},
         { withCredentials: true }
       );
@@ -45,7 +45,7 @@ const Navbar = () => {
         <div className="navbar-brand">
           {userProfilePic && (
             <img
-              src={`https://backend-users20250313164401.azurewebsites.net/${userProfilePic}`}
+              src={`https://backend-users20250313221512.azurewebsites.net/${userProfilePic}`}
               alt="Profile"
               className="navbar-profile-pic"
             />
