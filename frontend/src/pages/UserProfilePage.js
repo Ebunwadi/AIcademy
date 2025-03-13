@@ -1,6 +1,6 @@
+import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom"; // Import navigate hook
-import axios from "axios";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import "../styles/UserProfile.css";
@@ -14,7 +14,12 @@ const UserProfile = () => {
   useEffect(() => {
     const fetchUser = async () => {
       try {
-        const response = await axios.get("http://localhost:5000/api/user/me", { withCredentials: true }); // Fetch user data
+        const response = await axios.get(
+          "https://aicademy-core-backend.onrender.com/api/user/me",
+          {
+            withCredentials: true,
+          }
+        ); // Fetch user data
         setUser(response.data);
       } catch (error) {
         console.log(error);
@@ -31,10 +36,14 @@ const UserProfile = () => {
       formData.append("ProfilePicture", profilePicture);
       formData.append("UserID", user.userID);
 
-      await axios.put("http://localhost:5002/api/user/update", formData, {
-        headers: { "Content-Type": "multipart/form-data" },
-        withCredentials: true,
-      });
+      await axios.put(
+        "https://backend-users20250313164401.azurewebsites.net/api/user/update",
+        formData,
+        {
+          headers: { "Content-Type": "multipart/form-data" },
+          withCredentials: true,
+        }
+      );
 
       toast.success("Profile updated successfully.");
 
@@ -47,7 +56,7 @@ const UserProfile = () => {
       navigate("/");
     } catch (error) {
       console.log(error);
-      
+
       toast.error("Error updating profile.");
     }
   };
@@ -68,7 +77,9 @@ const UserProfile = () => {
           type="file"
           onChange={(e) => setProfilePicture(e.target.files[0])}
         />
-        <button type="submit" className="btn-primary">Update Profile</button>
+        <button type="submit" className="btn-primary">
+          Update Profile
+        </button>
       </form>
       <ToastContainer />
     </div>

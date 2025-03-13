@@ -1,6 +1,6 @@
+import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import axios from "axios";
 import "../styles/Navbar.css";
 
 const Navbar = () => {
@@ -10,7 +10,12 @@ const Navbar = () => {
   useEffect(() => {
     const fetchUserProfile = async () => {
       try {
-        const response = await axios.get("http://localhost:5000/api/user/me", { withCredentials: true });
+        const response = await axios.get(
+          "https://aicademy-core-backend.onrender.com/api/user/me",
+          {
+            withCredentials: true,
+          }
+        );
         setUserProfilePic(response.data.profilePicture || null);
       } catch (error) {
         console.error("Error fetching user profile:", error);
@@ -22,7 +27,11 @@ const Navbar = () => {
 
   const handleLogout = async () => {
     try {
-      await axios.post("http://localhost:5002/api/auth/logout", {}, { withCredentials: true });
+      await axios.post(
+        "https://backend-users20250313164401.azurewebsites.net/api/auth/logout",
+        {},
+        { withCredentials: true }
+      );
       navigate("/login");
     } catch (error) {
       console.error("Logout failed:", error);
@@ -36,7 +45,7 @@ const Navbar = () => {
         <div className="navbar-brand">
           {userProfilePic && (
             <img
-              src={`http://localhost:5002/${userProfilePic}`}
+              src={`https://backend-users20250313164401.azurewebsites.net/${userProfilePic}`}
               alt="Profile"
               className="navbar-profile-pic"
             />

@@ -1,6 +1,6 @@
+import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { Navigate } from "react-router-dom";
-import axios from "axios";
 
 const ProtectedRoute = ({ children }) => {
   const [authenticated, setAuthenticated] = useState(null);
@@ -8,7 +8,10 @@ const ProtectedRoute = ({ children }) => {
   useEffect(() => {
     const checkAuth = async () => {
       try {
-        await axios.get("http://localhost:5000/api/user/me", { withCredentials: true });
+        await axios.get(
+          "https://aicademy-core-backend.onrender.com/api/user/me",
+          { withCredentials: true }
+        );
         setAuthenticated(true);
       } catch {
         setAuthenticated(false);

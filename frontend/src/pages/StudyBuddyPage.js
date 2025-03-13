@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from "react";
 import axios from "axios";
+import React, { useEffect, useState } from "react";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import "../styles/StudyBuddyPage.css"; // Add styles for the page
@@ -17,10 +17,15 @@ const StudyBuddyPage = () => {
 
   const fetchNotes = async () => {
     try {
-      const response = await axios.get("http://localhost:5000/api/notes", { withCredentials: true });
+      const response = await axios.get(
+        "https://aicademy-core-backend.onrender.com/api/notes",
+        { withCredentials: true }
+      );
       setNotes(response.data.notes);
     } catch (error) {
-      toast.error("Error fetching notes. Please try again.", { position: "top-center" });
+      toast.error("Error fetching notes. Please try again.", {
+        position: "top-center",
+      });
     }
   };
 
@@ -35,15 +40,21 @@ const StudyBuddyPage = () => {
     formData.append("file", file);
 
     try {
-      await axios.post("http://localhost:5000/api/notes/upload", formData, {
-        headers: { "Content-Type": "multipart/form-data" },
-        withCredentials: true,
-      });
+      await axios.post(
+        "https://aicademy-core-backend.onrender.com/api/notes/upload",
+        formData,
+        {
+          headers: { "Content-Type": "multipart/form-data" },
+          withCredentials: true,
+        }
+      );
 
       toast.success("File uploaded successfully!", { position: "top-center" });
       fetchNotes(); // Refresh the notes list
     } catch (error) {
-      toast.error("Error uploading file. Please try again.", { position: "top-center" });
+      toast.error("Error uploading file. Please try again.", {
+        position: "top-center",
+      });
     } finally {
       setFile(null);
       setLoading(false);
@@ -55,11 +66,16 @@ const StudyBuddyPage = () => {
     if (!window.confirm("Are you sure you want to delete this note?")) return;
 
     try {
-      await axios.delete(`http://localhost:5000/api/notes/${noteId}`, { withCredentials: true });
+      await axios.delete(
+        `https://aicademy-core-backend.onrender.com/api/notes/${noteId}`,
+        { withCredentials: true }
+      );
       toast.success("Note deleted successfully!", { position: "top-center" });
       fetchNotes(); // Refresh the notes list
     } catch (error) {
-      toast.error("Error deleting note. Please try again.", { position: "top-center" });
+      toast.error("Error deleting note. Please try again.", {
+        position: "top-center",
+      });
     }
   };
 
@@ -67,11 +83,20 @@ const StudyBuddyPage = () => {
     setLoading(true);
     setQuiz([]);
     try {
-      const response = await axios.post(`http://localhost:5000/api/notes/${noteId}/quiz`, {}, { withCredentials: true });
-      const quizContent = response.data.quiz.split("\n").map((line) => line.trim()).filter(Boolean); // Parse the quiz
+      const response = await axios.post(
+        `https://aicademy-core-backend.onrender.com/api/notes/${noteId}/quiz`,
+        {},
+        { withCredentials: true }
+      );
+      const quizContent = response.data.quiz
+        .split("\n")
+        .map((line) => line.trim())
+        .filter(Boolean); // Parse the quiz
       setQuiz(quizContent);
     } catch (error) {
-      toast.error("Error generating quiz. Please try again.", { position: "top-center" });
+      toast.error("Error generating quiz. Please try again.", {
+        position: "top-center",
+      });
     } finally {
       setLoading(false);
     }
@@ -86,7 +111,11 @@ const StudyBuddyPage = () => {
       <form onSubmit={handleFileUpload} className="upload-form">
         <input type="file" onChange={handleFileChange} />
         <div className="upload-actions">
-          <button type="submit" disabled={!file || loading} className="btn-primary">
+          <button
+            type="submit"
+            disabled={!file || loading}
+            className="btn-primary"
+          >
             {loading ? "Processing..." : "Upload File"}
           </button>
           {loading && <div className="spinner"></div>}
@@ -106,9 +135,14 @@ const StudyBuddyPage = () => {
                   <a href="#!" onClick={() => setSelectedNote(note)}>
                     {note.title}
                   </a>
-                  <span className="note-date">{new Date(note.createdAt).toLocaleDateString()}</span>
+                  <span className="note-date">
+                    {new Date(note.createdAt).toLocaleDateString()}
+                  </span>
                 </div>
-                <button onClick={() => handleDeleteNote(note.id)} className="delete-btn">
+                <button
+                  onClick={() => handleDeleteNote(note.id)}
+                  className="delete-btn"
+                >
                   Delete
                 </button>
               </li>
@@ -121,9 +155,15 @@ const StudyBuddyPage = () => {
       {selectedNote && (
         <div className="note-details">
           <h2>{selectedNote.title}</h2>
-          <p><strong>AI Summary:</strong> {selectedNote.aiSummary}</p>
+          <p>
+            <strong>AI Summary:</strong> {selectedNote.aiSummary}
+          </p>
           <div className="upload-actions">
-            <button onClick={() => handleGenerateQuiz(selectedNote.id)} disabled={loading} className="btn-primary">
+            <button
+              onClick={() => handleGenerateQuiz(selectedNote.id)}
+              disabled={loading}
+              className="btn-primary"
+            >
               {loading ? "Generating Quiz..." : "Generate Quiz"}
             </button>
             {loading && <div className="spinner"></div>}
@@ -140,7 +180,11 @@ const StudyBuddyPage = () => {
               </ul>
             </div>
           )}
-          <button onClick={() => setSelectedNote(null)} className="btn-primary" disabled={loading}>
+          <button
+            onClick={() => setSelectedNote(null)}
+            className="btn-primary"
+            disabled={loading}
+          >
             Back to Notes
           </button>
         </div>

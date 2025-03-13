@@ -1,6 +1,6 @@
+import axios from "axios";
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import "../styles/ResetPassword.css"; // Ensure to include your custom styles
@@ -25,11 +25,14 @@ const ResetPasswordPage = () => {
     setLoading(true); // Start loading spinner
 
     try {
-      await axios.post("http://localhost:5002/api/users/reset-password", {
-        email,
-        resetCode,
-        newPassword,
-      });
+      await axios.post(
+        "https://backend-users20250313164401.azurewebsites.net/api/users/reset-password",
+        {
+          email,
+          resetCode,
+          newPassword,
+        }
+      );
 
       toast.success("Password reset successfully. Redirecting to login...");
       // Clear form

@@ -1,7 +1,7 @@
+import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
-import '../styles/HomePage.css'
+import "../styles/HomePage.css";
 
 const HomePage = () => {
   const [user, setUser] = useState(null);
@@ -10,7 +10,10 @@ const HomePage = () => {
   useEffect(() => {
     const fetchUser = async () => {
       try {
-        const response = await axios.get("http://localhost:5000/api/user/me", { withCredentials: true }); // Fetch user data
+        const response = await axios.get(
+          "https://aicademy-core-backend.onrender.com/api/user/me",
+          { withCredentials: true }
+        ); // Fetch user data
         setUser(response.data);
       } catch (error) {
         console.log(error);
