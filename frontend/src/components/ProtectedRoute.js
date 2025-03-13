@@ -11,7 +11,9 @@ const ProtectedRoute = ({ children }) => {
         await axios.get(
           "https://aicademy-core-backend.onrender.com/api/user/me",
           {
-            withCredentials: true,
+            headers: {
+              'Authorization': `Bearer ${localStorage.getItem('token')}`  // Send the token in the header
+          }
           }
         );
         setAuthenticated(true);

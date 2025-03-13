@@ -19,14 +19,12 @@ const Login = () => {
     e.preventDefault();
     setLoading(true); // Start the spinner
     try {
-      await axios.post(
+      const response = await axios.post(
         "https://backend-users20250313221512.azurewebsites.net/api/auth/login",
-        formData,
-        {
-          withCredentials: true,
-        }
+        formData
       );
       toast.success("Login successful!");
+      localStorage.setItem('token', response.data.token);
       navigate("/"); // Redirect to home/dashboard
     } catch (error) {
       toast.error(error.response?.data?.message || "Login failed.");

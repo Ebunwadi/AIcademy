@@ -7,7 +7,7 @@ const axios = require("axios");
 const protectRoute = async (req, res, next) => {
   try {
     // Get token from cookies
-    const token = req.cookies.token;
+    const token = req.header('Authorization')?.replace('Bearer ', '');
     console.log("token", token);
     
     if (!token) {

@@ -11,9 +11,10 @@ const HomePage = () => {
     const fetchUser = async () => {
       try {
         const response = await axios.get(
-          "https://aicademy-core-backend.onrender.com/api/user/me",
-          {
-            withCredentials: true,
+          "https://aicademy-core-backend.onrender.com/api/user/me", {
+            headers: {
+              'Authorization': `Bearer ${localStorage.getItem('token')}`  // Send the token in the header
+          }
           }
         ); // Fetch user data
         setUser(response.data);

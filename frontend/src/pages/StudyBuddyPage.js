@@ -20,7 +20,9 @@ const StudyBuddyPage = () => {
       const response = await axios.get(
         "https://aicademy-core-backend.onrender.com/api/notes",
         {
-          withCredentials: true,
+          headers: {
+            'Authorization': `Bearer ${localStorage.getItem('token')}`  // Send the token in the header
+        }
         }
       );
       setNotes(response.data.notes);

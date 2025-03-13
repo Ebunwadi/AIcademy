@@ -43,8 +43,8 @@ public static class UserAPIEndpoints
                 return Results.ValidationProblem(validationResult.ToDictionary());
             }
 
-            string result = await userService.Login(loginRequest);
-            return Results.Ok(new { Message = result });
+            string token = await userService.Login(loginRequest);
+            return Results.Ok(new { token });
         });
 
         // POST /api/users/logout

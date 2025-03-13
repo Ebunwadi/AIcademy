@@ -27,11 +27,7 @@ const Navbar = () => {
 
   const handleLogout = async () => {
     try {
-      await axios.post(
-        "https://backend-users20250313221512.azurewebsites.net/api/auth/logout",
-        {},
-        { withCredentials: true }
-      );
+      localStorage.removeItem('token');
       navigate("/login");
     } catch (error) {
       console.error("Logout failed:", error);

@@ -93,9 +93,9 @@ namespace BusinessLogicLayer.Services
             var token = GenerateJwtToken(user.UserID);
 
             // Set the token in an HTTP-only cookie
-            SetTokenCookie(token);
+            //SetTokenCookie(token);
 
-            return "Logged in successfully.";
+            return token;
         }
 
         public string Logout()
@@ -139,9 +139,11 @@ namespace BusinessLogicLayer.Services
             context.Response.Cookies.Append("token", token, new CookieOptions
             {
                 HttpOnly = true,
-                Secure = false,
+                Secure = true,
                 SameSite = SameSiteMode.None,
-                Expires = DateTime.UtcNow.AddHours(1)
+                Expires = DateTime.UtcNow.AddHours(1),
+                Domain = ".onrender.com",  // Allow the cookie to be sent across subdomains of onrender.com
+                Path = "/"
             });
         }
 

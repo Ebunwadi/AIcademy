@@ -40,8 +40,7 @@ const UserProfile = () => {
         "https://backend-users20250313221512.azurewebsites.net/api/user/update",
         formData,
         {
-          headers: { "Content-Type": "multipart/form-data" },
-          withCredentials: true,
+          headers: { "Content-Type": "multipart/form-data" }
         }
       );
 
