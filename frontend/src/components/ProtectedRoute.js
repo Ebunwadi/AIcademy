@@ -8,15 +8,7 @@ const ProtectedRoute = ({ children }) => {
   useEffect(() => {
     const checkAuth = async () => {
       try {
-        await axios.get(
-          "https://aicademy-core-backend.onrender.com/api/user/me",
-          {
-            headers: {
-              'Authorization': `Bearer ${localStorage.getItem('token')}`  // Send the token in the header
-          }
-          }
-        );
-        setAuthenticated(true);
+    if (localStorage.getItem('token')) setAuthenticated(true);
       } catch {
         setAuthenticated(false);
       }
