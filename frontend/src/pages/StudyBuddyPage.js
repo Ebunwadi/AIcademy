@@ -73,10 +73,10 @@ const StudyBuddyPage = () => {
   };
 
   const handleDeleteNote = async (noteId) => {
-  const token = localStorage.getItem('token')
     if (!window.confirm("Are you sure you want to delete this note?")) return;
 
     try {
+      const token = localStorage.getItem('token')
       await axios.delete(
         `https://aicademy-core-backend.onrender.com/api/notes/${noteId}`,
         {
@@ -94,13 +94,12 @@ const StudyBuddyPage = () => {
   };
 
   const handleGenerateQuiz = async (noteId) => {
-  const token = localStorage.getItem('token')
     setLoading(true);
     setQuiz([]);
     try {
+      const token = localStorage.getItem('token')
       const response = await axios.post(
         `https://aicademy-core-backend.onrender.com/api/notes/${noteId}/quiz`,
-        {},
         { 'Authorization': `Bearer ${token}` } // Send the token in the header
       );
       const quizContent = response.data.quiz
@@ -109,6 +108,7 @@ const StudyBuddyPage = () => {
         .filter(Boolean); // Parse the quiz
       setQuiz(quizContent);
     } catch (error) {
+      console.log(error);
       toast.error("Error generating quiz. Please try again.", {
         position: "top-center",
       });
