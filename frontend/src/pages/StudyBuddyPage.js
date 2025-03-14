@@ -30,6 +30,7 @@ const StudyBuddyPage = () => {
       );
       setNotes(response.data.notes);
     } catch (error) {
+      console.log(error);
       toast.error("Error fetching notes. Please try again.", {
         position: "top-center",
       });
@@ -61,6 +62,7 @@ const StudyBuddyPage = () => {
       toast.success("File uploaded successfully!", { position: "top-center" });
       fetchNotes(); // Refresh the notes list
     } catch (error) {
+      console.log(error);
       toast.error("Error uploading file. Please try again.", {
         position: "top-center",
       });
@@ -84,6 +86,7 @@ const StudyBuddyPage = () => {
       toast.success("Note deleted successfully!", { position: "top-center" });
       fetchNotes(); // Refresh the notes list
     } catch (error) {
+      console.log(error);
       toast.error("Error deleting note. Please try again.", {
         position: "top-center",
       });
