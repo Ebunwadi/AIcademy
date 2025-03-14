@@ -23,8 +23,9 @@ const Login = () => {
         "https://backend-users20250313221512.azurewebsites.net/api/auth/login",
         formData
       );
-      toast.success("Login successful!");
       localStorage.setItem('token', response.data.token);
+      console.log("token from loginpage: ", response.data.token);
+      toast.success("Login successful!");
       navigate("/"); // Redirect to home/dashboard
     } catch (error) {
       toast.error(error.response?.data?.message || "Login failed.");

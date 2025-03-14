@@ -10,12 +10,16 @@ const Navbar = () => {
   useEffect(() => {
     const fetchUserProfile = async () => {
       try {
+        const token = localStorage.getItem('token')
+        console.log("token from navbar: ", token);
+        
         const response = await axios.get(
-          "https://aicademy-core-backend.onrender.com/api/user/me",
-          {
-            withCredentials: true,
+          "https://aicademy-core-backend.onrender.com/api/user/me", {
+            headers: {
+              'Authorization': `Bearer ${token}`  // Send the token in the header
           }
-        );
+          }
+        )
         setUserProfilePic(response.data.profilePicture || null);
       } catch (error) {
         console.error("Error fetching user profile:", error);
