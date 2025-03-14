@@ -7,7 +7,7 @@ const ProtectedRoute = ({ children }) => {
   useEffect(() => {
     const checkAuth = async () => {
       try {
-        const token = localStorage.getItem('token')        
+        const token = localStorage.getItem('token')     
         if (token) setAuthenticated(true);
           } catch {
             setAuthenticated(false);
@@ -17,7 +17,7 @@ const ProtectedRoute = ({ children }) => {
   }, []);
 
   if (authenticated === null) {
-    return <h1>Loading...</h1>; // Show a loader while checking auth
+    return <h1>Loading from auth...</h1>; // Show a loader while checking auth
   }
 
   return authenticated ? children : <Navigate to="/login" />;

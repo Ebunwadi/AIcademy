@@ -42,7 +42,7 @@ const HomePage = () => {
           <p>Welcome back to your Academic Assistant Dashboard.</p>
         </>
       ) : (
-        <h1>Loading...</h1>
+        <h1>Loading from HomePage...</h1>
       )}
     </div>
   );
