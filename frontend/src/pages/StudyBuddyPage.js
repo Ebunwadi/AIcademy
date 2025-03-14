@@ -10,6 +10,8 @@ const StudyBuddyPage = () => {
   const [notes, setNotes] = useState([]);
   const [selectedNote, setSelectedNote] = useState(null);
   const [quiz, setQuiz] = useState([]);
+  const token = localStorage.getItem('token')
+
 
   useEffect(() => {
     fetchNotes();
@@ -49,8 +51,10 @@ const StudyBuddyPage = () => {
         "https://aicademy-core-backend.onrender.com/api/notes/upload",
         formData,
         {
-          headers: { "Content-Type": "multipart/form-data" },
-          withCredentials: true,
+          headers: { 
+            "Content-Type": "multipart/form-data",
+            'Authorization': `Bearer ${token}`  // Send the token in the header
+          },
         }
       );
 
@@ -74,7 +78,7 @@ const StudyBuddyPage = () => {
       await axios.delete(
         `https://aicademy-core-backend.onrender.com/api/notes/${noteId}`,
         {
-          withCredentials: true,
+          'Authorization': `Bearer ${token}`  // Send the token in the header
         }
       );
       toast.success("Note deleted successfully!", { position: "top-center" });
@@ -93,7 +97,7 @@ const StudyBuddyPage = () => {
       const response = await axios.post(
         `https://aicademy-core-backend.onrender.com/api/notes/${noteId}/quiz`,
         {},
-        { withCredentials: true }
+        { 'Authorization': `Bearer ${token}` } // Send the token in the header
       );
       const quizContent = response.data.quiz
         .split("\n")
