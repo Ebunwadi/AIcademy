@@ -10,7 +10,7 @@ const Navbar = () => {
   useEffect(() => {
     const fetchUserProfile = async () => {
       try {
-        const token = localStorage.getItem('token')      
+        const token = localStorage.getItem('token')
         const response = await axios.get(
           "https://aicademy-core-backend.onrender.com/api/user/me", {
             headers: {
@@ -20,6 +20,7 @@ const Navbar = () => {
         )
         setUserProfilePic(response.data.profilePicture || null);
       } catch (error) {
+        console.log(error);
         console.error("Error fetching user profile:", error);
       }
     };
