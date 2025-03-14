@@ -1,4 +1,3 @@
-import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { Navigate } from "react-router-dom";
 
@@ -8,15 +7,12 @@ const ProtectedRoute = ({ children }) => {
   useEffect(() => {
     const checkAuth = async () => {
       try {
-        const token = localStorage.getItem('token')
-        console.log("token from auth: ", token);
-        
-    if (token) setAuthenticated(true);
-      } catch {
-        setAuthenticated(false);
-      }
-    };
-
+        const token = localStorage.getItem('token')        
+        if (token) setAuthenticated(true);
+          } catch {
+            setAuthenticated(false);
+          }
+        };
     checkAuth();
   }, []);
 

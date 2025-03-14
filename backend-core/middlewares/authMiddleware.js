@@ -6,15 +6,9 @@ const axios = require("axios");
  */
 const protectRoute = async (req, res, next) => {
   try {
-    function delay(ms) {
-      return new Promise(resolve => setTimeout(resolve, ms));
-  }
     // Get token from cookies
     const token = await req.header('Authorization')?.replace('Bearer ', '');
-    console.log("token before delay", token);
-
-    await delay(3000)
-    console.log("token after delay", token);
+    console.log("token", token);
     
     if (!token) {
       return res

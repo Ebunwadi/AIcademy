@@ -24,7 +24,6 @@ const Login = () => {
         formData
       );
       localStorage.setItem('token', response.data.token);
-      console.log("token from loginpage: ", response.data.token);
       toast.success("Login successful!");
       navigate("/"); // Redirect to home/dashboard
     } catch (error) {

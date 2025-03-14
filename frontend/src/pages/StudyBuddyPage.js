@@ -17,11 +17,12 @@ const StudyBuddyPage = () => {
 
   const fetchNotes = async () => {
     try {
+      const token = localStorage.getItem('token')
       const response = await axios.get(
         "https://aicademy-core-backend.onrender.com/api/notes",
         {
           headers: {
-            'Authorization': `Bearer ${localStorage.getItem('token')}`  // Send the token in the header
+            'Authorization': `Bearer ${token}`  // Send the token in the header
         }
         }
       );

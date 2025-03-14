@@ -11,7 +11,6 @@ const HomePage = () => {
     const fetchUser = async () => {
       try {
         const token = localStorage.getItem('token')
-        console.log("token from homepage: ", token);
         const response = await axios.get(
           "https://aicademy-core-backend.onrender.com/api/user/me", {
             headers: {
