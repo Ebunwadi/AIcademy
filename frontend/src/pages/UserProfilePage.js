@@ -14,10 +14,13 @@ const UserProfile = () => {
   useEffect(() => {
     const fetchUser = async () => {
       try {
+        const token = localStorage.getItem('token')
         const response = await axios.get(
           "https://aicademy-core-backend.onrender.com/api/user/me",
           {
-            withCredentials: true,
+            headers: {
+              'Authorization': `Bearer ${token}`  // Send the token in the header
+          }
           }
         ); // Fetch user data
         setUser(response.data);

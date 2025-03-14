@@ -10,8 +10,6 @@ const StudyBuddyPage = () => {
   const [notes, setNotes] = useState([]);
   const [selectedNote, setSelectedNote] = useState(null);
   const [quiz, setQuiz] = useState([]);
-  const token = localStorage.getItem('token')
-
 
   useEffect(() => {
     fetchNotes();
@@ -42,6 +40,7 @@ const StudyBuddyPage = () => {
   };
 
   const handleFileUpload = async (e) => {
+  const token = localStorage.getItem('token')
     e.preventDefault();
     setLoading(true);
     const formData = new FormData();
@@ -74,6 +73,7 @@ const StudyBuddyPage = () => {
   };
 
   const handleDeleteNote = async (noteId) => {
+  const token = localStorage.getItem('token')
     if (!window.confirm("Are you sure you want to delete this note?")) return;
 
     try {
@@ -94,6 +94,7 @@ const StudyBuddyPage = () => {
   };
 
   const handleGenerateQuiz = async (noteId) => {
+  const token = localStorage.getItem('token')
     setLoading(true);
     setQuiz([]);
     try {
