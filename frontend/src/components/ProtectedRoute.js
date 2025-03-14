@@ -16,9 +16,9 @@ const ProtectedRoute = ({ children }) => {
     checkAuth();
   }, []);
 
-  // if (authenticated === null) {
-  //   return <h1>Loading from auth...</h1>; // Show a loader while checking auth
-  // }
+  if (authenticated === null) {
+    return <h1>Loading from auth...</h1>; // Show a loader while checking auth
+  }
 
   return authenticated ? children : <Navigate to="/login" />;
 };
