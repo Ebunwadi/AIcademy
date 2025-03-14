@@ -30,6 +30,6 @@ router.get("/:noteId", protectRoute, getSingleNote);
 router.delete("/:noteId", protectRoute, deleteNote);
 
 // POST: Generate quiz for a note
-router.post("/:noteId/quiz", protectRoute, generateQuizForNote);
+router.post("/:noteId/quiz", generateQuizForNote);
 
 module.exports = router;

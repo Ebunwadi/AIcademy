@@ -102,11 +102,11 @@ const StudyBuddyPage = () => {
       const token = localStorage.getItem('token')
       const response = await axios.post(
         `https://aicademy-core-backend.onrender.com/api/notes/${noteId}/quiz`,
-        {             
+        {
           headers: {
-          'Authorization': `Bearer ${token}`
-        } // Send the token in the header
-      }  
+            'Authorization': `Bearer ${token}`  // Send the token in the header
+        }
+        }
       );
       const quizContent = response.data.quiz
         .split("\n")
