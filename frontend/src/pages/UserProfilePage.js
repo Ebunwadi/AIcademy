@@ -15,14 +15,11 @@ const UserProfile = () => {
     const fetchUser = async () => {
       try {
         const token = localStorage.getItem("token");
-        const response = await axios.get(
-          "https://aicademy-core-backend.onrender.com/api/user/me",
-          {
-            headers: {
-              Authorization: `Bearer ${token}`, // Send the token in the header
-            },
-          }
-        ); // Fetch user data
+        const response = await axios.get("http://localhost:5000/api/user/me", {
+          headers: {
+            Authorization: `Bearer ${token}`, // Send the token in the header
+          },
+        }); // Fetch user data
         setUser(response.data);
       } catch (error) {
         console.log(error);

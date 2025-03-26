@@ -17,15 +17,12 @@ const StudyBuddyPage = () => {
 
   const fetchNotes = async () => {
     try {
-      const token = localStorage.getItem('token')
-      const response = await axios.get(
-        "https://aicademy-core-backend.onrender.com/api/notes",
-        {
-          headers: {
-            'Authorization': `Bearer ${token}`  // Send the token in the header
-        }
-        }
-      );
+      const token = localStorage.getItem("token");
+      const response = await axios.get("http://localhost:5000/api/notes", {
+        headers: {
+          Authorization: `Bearer ${token}`, // Send the token in the header
+        },
+      });
       setNotes(response.data.notes);
     } catch (error) {
       console.log(error);
@@ -40,23 +37,19 @@ const StudyBuddyPage = () => {
   };
 
   const handleFileUpload = async (e) => {
-  const token = localStorage.getItem('token')
+    const token = localStorage.getItem("token");
     e.preventDefault();
     setLoading(true);
     const formData = new FormData();
     formData.append("file", file);
 
     try {
-      await axios.post(
-        "https://aicademy-core-backend.onrender.com/api/notes/upload",
-        formData,
-        {
-          headers: { 
-            "Content-Type": "multipart/form-data",
-            'Authorization': `Bearer ${token}`  // Send the token in the header
-          },
-        }
-      );
+      await axios.post("http://localhost:5000/api/notes/upload", formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+          Authorization: `Bearer ${token}`, // Send the token in the header
+        },
+      });
 
       toast.success("File uploaded successfully!", { position: "top-center" });
       fetchNotes(); // Refresh the notes list
@@ -76,15 +69,12 @@ const StudyBuddyPage = () => {
     if (!window.confirm("Are you sure you want to delete this note?")) return;
 
     try {
-      const token = localStorage.getItem('token') 
-      await axios.delete(
-        `https://aicademy-core-backend.onrender.com/api/notes/${noteId}`,
-        {
-          headers: {
-            'Authorization': `Bearer ${token}`  // Send the token in the header
-        }
-        }
-      );
+      const token = localStorage.getItem("token");
+      await axios.delete(`http://localhost:5000/api/notes/${noteId}`, {
+        headers: {
+          Authorization: `Bearer ${token}`, // Send the token in the header
+        },
+      });
       toast.success("Note deleted successfully!", { position: "top-center" });
       fetchNotes(); // Refresh the notes list
     } catch (error) {
@@ -99,13 +89,13 @@ const StudyBuddyPage = () => {
     setLoading(true);
     setQuiz([]);
     try {
-      const token = localStorage.getItem('token')
+      const token = localStorage.getItem("token");
       const response = await axios.post(
-        `https://aicademy-core-backend.onrender.com/api/notes/${noteId}/quiz`,
+        `http://localhost:5000/api/notes/${noteId}/quiz`,
         {
           headers: {
-            'Authorization': `Bearer ${token}`  // Send the token in the header
-        }
+            Authorization: `Bearer ${token}`, // Send the token in the header
+          },
         }
       );
       const quizContent = response.data.quiz

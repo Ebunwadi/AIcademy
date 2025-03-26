@@ -20,7 +20,7 @@ builder.Services.AddFluentValidationAutoValidation();
 //Cors
 builder.Services.AddCors(options => {
     options.AddDefaultPolicy(builder => {
-        builder.WithOrigins("https://aicademy-12mi.onrender.com", "https://aicademy-core-backend.onrender.com")
+        builder.WithOrigins("https://aicademy-12mi.onrender.com", "http://localhost:5000")
         .AllowAnyMethod()
         .AllowAnyHeader()
         .AllowCredentials();

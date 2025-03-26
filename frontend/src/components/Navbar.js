@@ -11,14 +11,11 @@ const Navbar = () => {
     const fetchUserProfile = async () => {
       try {
         const token = localStorage.getItem("token");
-        const response = await axios.get(
-          "https://aicademy-core-backend.onrender.com/api/user/me",
-          {
-            headers: {
-              Authorization: `Bearer ${token}`, // Send the token in the header
-            },
-          }
-        );
+        const response = await axios.get("http://localhost:5000/api/user/me", {
+          headers: {
+            Authorization: `Bearer ${token}`, // Send the token in the header
+          },
+        });
         setUserProfilePic(response.data.profilePicture || null);
       } catch (error) {
         console.log(error);

@@ -79,7 +79,7 @@ def predict_job_role():
             'predicted_job_role': predicted_job_role
         }
         # Send POST request to Express app to get career advice
-        response = requests.post('https://aicademy-core-backend.onrender.com/api/career/generate-career-advice', json=career_advice_data)
+        response = requests.post('http://localhost:5000/api/career/generate-career-advice', json=career_advice_data)
         if response.status_code == 200:
             career_advice = response.json().get('career_advice', 'No career advice available.')
         else:
