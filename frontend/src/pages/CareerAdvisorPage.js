@@ -56,6 +56,11 @@ const JobRecommendationForm = () => {
 
       setPredictedJobRole(response.data.predicted_job_role);
       setCareerAdvice(response.data.career_advice); // Set the career advice from the Flask response
+      setAllSkills("");
+      setCareerAdvice("");
+      setEducationLevel("");
+      setExperienceLevel("");
+      setIndustry("");
     } catch (error) {
       console.error(
         "Error predicting job role or fetching career advice:",
