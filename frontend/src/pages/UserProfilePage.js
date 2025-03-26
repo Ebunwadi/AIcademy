@@ -14,13 +14,13 @@ const UserProfile = () => {
   useEffect(() => {
     const fetchUser = async () => {
       try {
-        const token = localStorage.getItem('token')
+        const token = localStorage.getItem("token");
         const response = await axios.get(
           "https://aicademy-core-backend.onrender.com/api/user/me",
           {
             headers: {
-              'Authorization': `Bearer ${token}`  // Send the token in the header
-          }
+              Authorization: `Bearer ${token}`, // Send the token in the header
+            },
           }
         ); // Fetch user data
         setUser(response.data);
@@ -39,13 +39,9 @@ const UserProfile = () => {
       formData.append("ProfilePicture", profilePicture);
       formData.append("UserID", user.userID);
 
-      await axios.put(
-        "https://backend-users20250313221512.azurewebsites.net/api/user/update",
-        formData,
-        {
-          headers: { "Content-Type": "multipart/form-data" }
-        }
-      );
+      await axios.put("http://localhost:5005/api/user/update", formData, {
+        headers: { "Content-Type": "multipart/form-data" },
+      });
 
       toast.success("Profile updated successfully.");
 

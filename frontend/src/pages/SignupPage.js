@@ -25,10 +25,7 @@ const Signup = () => {
     e.preventDefault();
     setLoading(true);
     try {
-      await axios.post(
-        "https://backend-users20250313221512.azurewebsites.net/api/auth/signup",
-        formData
-      );
+      await axios.post("http://localhost:5005/api/auth/signup", formData);
       toast.success("Signup successful! You can now log in.");
       navigate("/login");
     } catch (error) {

@@ -25,14 +25,11 @@ const ResetPasswordPage = () => {
     setLoading(true); // Start loading spinner
 
     try {
-      await axios.post(
-        "https://backend-users20250313221512.azurewebsites.net/api/users/reset-password",
-        {
-          email,
-          resetCode,
-          newPassword,
-        }
-      );
+      await axios.post("http://localhost:5005/api/users/reset-password", {
+        email,
+        resetCode,
+        newPassword,
+      });
 
       toast.success("Password reset successfully. Redirecting to login...");
       // Clear form

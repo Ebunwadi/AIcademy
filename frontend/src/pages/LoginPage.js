@@ -20,10 +20,10 @@ const Login = () => {
     setLoading(true); // Start the spinner
     try {
       const response = await axios.post(
-        "https://backend-users20250313221512.azurewebsites.net/api/auth/login",
+        "http://localhost:5005/api/auth/login",
         formData
       );
-      localStorage.setItem('token', response.data.token);
+      localStorage.setItem("token", response.data.token);
       toast.success("Login successful!");
       navigate("/"); // Redirect to home/dashboard
     } catch (error) {

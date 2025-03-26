@@ -10,14 +10,15 @@ const Navbar = () => {
   useEffect(() => {
     const fetchUserProfile = async () => {
       try {
-        const token = localStorage.getItem('token')
+        const token = localStorage.getItem("token");
         const response = await axios.get(
-          "https://aicademy-core-backend.onrender.com/api/user/me", {
+          "https://aicademy-core-backend.onrender.com/api/user/me",
+          {
             headers: {
-              'Authorization': `Bearer ${token}`  // Send the token in the header
+              Authorization: `Bearer ${token}`, // Send the token in the header
+            },
           }
-          }
-        )
+        );
         setUserProfilePic(response.data.profilePicture || null);
       } catch (error) {
         console.log(error);
@@ -30,7 +31,7 @@ const Navbar = () => {
 
   const handleLogout = async () => {
     try {
-      localStorage.removeItem('token');
+      localStorage.removeItem("token");
       navigate("/login");
     } catch (error) {
       console.error("Logout failed:", error);
@@ -44,7 +45,7 @@ const Navbar = () => {
         <div className="navbar-brand">
           {userProfilePic && (
             <img
-              src={`https://backend-users20250313221512.azurewebsites.net/${userProfilePic}`}
+              src={`http://localhost:5005/${userProfilePic}`}
               alt="Profile"
               className="navbar-profile-pic"
             />

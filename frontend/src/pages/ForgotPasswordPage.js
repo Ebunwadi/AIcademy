@@ -15,12 +15,9 @@ const ForgotPasswordPage = () => {
     setLoading(true); // Start loading spinner
 
     try {
-      await axios.post(
-        "https://backend-users20250313221512.azurewebsites.net/api/users/send-reset-code",
-        {
-          email,
-        }
-      );
+      await axios.post("http://localhost:5005/api/users/send-reset-code", {
+        email,
+      });
       toast.success(
         "Reset code sent to your email. Redirecting to reset password page..."
       );
