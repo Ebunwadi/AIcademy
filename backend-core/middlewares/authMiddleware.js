@@ -32,7 +32,7 @@ const protectRoute = async (req, res, next) => {
     req.user = userResponse.data;
     next(); // Proceed to the next middleware or route handler
   } catch (error) {
-    // console.error("Error in authentication middleware:", error);
+    console.error("Error in authentication middleware:", error);
 
     // Handle specific cases like expired token or connection issues
     if (error.response?.status === 404) {
