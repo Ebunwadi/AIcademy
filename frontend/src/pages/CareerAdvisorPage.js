@@ -19,9 +19,7 @@ const JobRecommendationForm = () => {
   useEffect(() => {
     const fetchSkills = async () => {
       try {
-        const response = await axios.get(
-          "https://aicademy-ai-service.onrender.com/api/skills"
-        );
+        const response = await axios.get("http://localhost:5003/api/skills");
         setAllSkills(response.data);
       } catch (error) {
         console.error("Error fetching skills:", error);
@@ -52,7 +50,7 @@ const JobRecommendationForm = () => {
     try {
       // Make a single API request to Flask, which handles both the job role prediction and career advice
       const response = await axios.post(
-        "https://aicademy-ai-service.onrender.com/api/career/predict-job-role",
+        "http://localhost:5003/api/career/predict-job-role",
         data
       );
 
