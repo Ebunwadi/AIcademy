@@ -8,7 +8,6 @@ const protectRoute = async (req, res, next) => {
   try {
     // Get token from cookies
     const token = await req.header('Authorization')?.replace('Bearer ', '');
-    console.log("token", token);
     
     if (!token) {
       return res

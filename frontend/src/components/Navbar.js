@@ -47,7 +47,7 @@ const Navbar = () => {
               className="navbar-profile-pic"
             />
           )}
-          <Link to="/">Academic Assistant</Link>
+          <Link to="/">AiCademy</Link>
         </div>
 
         {/* Links and Logout */}
