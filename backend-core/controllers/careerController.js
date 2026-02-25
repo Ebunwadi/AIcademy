@@ -3,7 +3,6 @@ const { generateCareerAdvice } = require("../helpers/openAIHelper")
 const careerAdvisor = async (req, res) => {
 try {
     const {experience_level, education_level, industry, job_role} = req.body;
-    console.log(experience_level);
     
     const careerAdvice = await generateCareerAdvice(experience_level, education_level, industry, job_role)
     return res.status(200).json({ career_advice: careerAdvice });

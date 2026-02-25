@@ -1,5 +1,4 @@
 const { OpenAI } = require("openai");
-const puppeteer = require('puppeteer');
 
 // Initialize OpenAI API
 const openai = new OpenAI({
@@ -71,7 +70,7 @@ const generateQuiz = async (aiSummary) => {
 const generateCareerAdvice = async (educationLevel, experienceLevel, industry, jobRole) => {
   try { 
     const response = await openai.chat.completions.create({
-      model: "gpt-4o",
+      model: "gpt-5.2",
       messages: [
         {
           role: "system",
