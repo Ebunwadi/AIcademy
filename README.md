@@ -17,10 +17,10 @@ It combines user management, AI-assisted note processing, and career guidance.
 
 ## Services
 
-- `frontend` (React, port `3000`)
-- `backend-core` (Node.js + Express + Prisma, port `5000`)
-- `backend-users` (.NET 8 Web API + EF Core + MySQL, port `5005`)
-- `ai-services` (Flask ML service, port `5003`)
+- `frontend` (React, port `3000`): Main user interface where learners sign in, manage profiles, upload study material, and use Study Buddy/Career Advisor features.
+- `backend-core` (Node.js + Express + Prisma + PostgreSQL, port `5000`): Core application API that handles study workflows like file processing, note generation, summaries, and quiz creation.
+- `backend-users` (.NET 8 Web API + EF Core + MySQL, port `5005`): User management service that handles authentication and account features like signup, login, password reset, and profile updates.
+- `ai-services` (Flask ML service, port `5003`): AI/ML microservice that powers career role prediction and AI-assisted recommendations for learning and career guidance.
 
 ## Prerequisites
 
