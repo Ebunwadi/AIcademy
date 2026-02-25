@@ -1,7 +1,9 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { API } from "../config/api";
 import "../styles/Navbar.css";
+import { clearToken, getAuthHeaders, getToken, isAuthError } from "../utils/auth";
 
 const Navbar = () => {
   const navigate = useNavigate();
@@ -10,25 +12,31 @@ const Navbar = () => {
   useEffect(() => {
     const fetchUserProfile = async () => {
       try {
-        const token = localStorage.getItem("token");
-        const response = await axios.get("http://localhost:5000/api/user/me", {
-          headers: {
-            Authorization: `Bearer ${token}`, // Send the token in the header
-          },
+        const token = getToken();
+        if (!token) {
+          navigate("/login");
+          return;
+        }
+        const response = await axios.get(`${API.core}/api/user/me`, {
+          headers: getAuthHeaders(),
         });
         setUserProfilePic(response.data.profilePicture || null);
       } catch (error) {
-        console.log(error);
+        if (isAuthError(error)) {
+          clearToken();
+          navigate("/login");
+          return;
+        }
         console.error("Error fetching user profile:", error);
       }
     };
 
     fetchUserProfile();
-  }, []);
+  }, [navigate]);
 
   const handleLogout = async () => {
     try {
-      localStorage.removeItem("token");
+      clearToken();
       navigate("/login");
     } catch (error) {
       console.error("Logout failed:", error);
@@ -42,7 +50,7 @@ const Navbar = () => {
         <div className="navbar-brand">
           {userProfilePic && (
             <img
-              src={`http://localhost:5005/${userProfilePic}`}
+              src={`${API.user}/${userProfilePic}`}
               alt="Profile"
               className="navbar-profile-pic"
             />

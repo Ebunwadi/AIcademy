@@ -1,4 +1,4 @@
-﻿using BusinessLogicLayer.DTO;
+using BusinessLogicLayer.DTO;
 using BusinessLogicLayer.ServiceContracts;
 using FluentValidation;
 using FluentValidation.Results;
@@ -44,6 +44,10 @@ public static class UserAPIEndpoints
             }
 
             string token = await userService.Login(loginRequest);
+            if (token == "User not found." || token == "Invalid credentials.")
+            {
+                return Results.Unauthorized();
+            }
             return Results.Ok(new { token });
         });
 

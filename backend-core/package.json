@@ -10,7 +10,8 @@
   "license": "ISC",
   "description": "",
   "dependencies": {
-    "@prisma/client": "^6.0.1",
+    "@prisma/adapter-pg": "^7.4.1",
+    "@prisma/client": "^7.4.1",
     "axios": "^1.7.9",
     "bcrypt": "^5.1.1",
     "bcryptjs": "^2.4.3",
@@ -28,6 +29,7 @@
     "nodemailer": "^6.9.16",
     "openai": "^4.75.0",
     "pdf-parse": "^1.1.1",
+    "pg": "^8.19.0",
     "puppeteer": "^23.11.1",
     "textract": "^2.5.0",
     "uuid": "^11.0.3"
@@ -35,6 +37,6 @@
   "devDependencies": {
     "@eslint/js": "^9.22.0",
     "eslint": "^9.22.0",
-    "prisma": "^6.0.1"
+    "prisma": "^7.4.1"
   }
 }

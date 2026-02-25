@@ -1,9 +1,7 @@
-const prisma = require("@prisma/client").PrismaClient;
 const bcrypt = require("bcrypt");
 const { v4: uuidv4 } = require("uuid");
 const sendEmail = require("../helpers/sendEmail");
-
-const prismaClient = new prisma();
+const prismaClient = require("../db/prismaClient");
 
 // Update user profile
 const updateUserProfile = async (req, res) => {

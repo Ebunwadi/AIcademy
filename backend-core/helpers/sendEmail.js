@@ -21,7 +21,7 @@ const sendEmail = async (to, subject, text) => {
 
     // Define email options
     const mailOptions = {
-      from: `"Academic Assistant" <${process.env.EMAIL_USER}>`, // Sender's name and address
+      from: `"AiCademy" <${process.env.EMAIL_USER}>`, // Sender's name and address
       to, // Recipient's email address
       subject, // Subject of the email
       text, // Plain text content

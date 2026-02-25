@@ -4,6 +4,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import "../styles/AuthPage.css"; // Styles include the updated green background
+import { API } from "../config/api";
 
 const Login = () => {
   const [formData, setFormData] = useState({ email: "", password: "" });
@@ -20,14 +21,25 @@ const Login = () => {
     setLoading(true); // Start the spinner
     try {
       const response = await axios.post(
-        "http://localhost:5005/api/auth/login",
+        `${API.user}/api/auth/login`,
         formData
       );
-      localStorage.setItem("token", response.data.token);
+      const token = response.data?.token;
+      const isJwt = typeof token === "string" && token.split(".").length === 3;
+      if (!isJwt) {
+        throw new Error("Invalid login response.");
+      }
+      localStorage.setItem("token", token);
       toast.success("Login successful!");
       navigate("/"); // Redirect to home/dashboard
     } catch (error) {
-      toast.error(error.response?.data?.message || "Login failed.");
+      const message =
+        error.response?.data?.Message ||
+        error.response?.data?.message ||
+        (error.response?.status === 401
+          ? "Invalid email or password."
+          : "Login failed.");
+      toast.error(message);
     } finally {
       setLoading(false);
     }

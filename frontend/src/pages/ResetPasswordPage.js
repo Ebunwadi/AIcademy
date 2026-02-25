@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import "../styles/ResetPassword.css"; // Ensure to include your custom styles
+import { API } from "../config/api";
 
 const ResetPasswordPage = () => {
   const [email, setEmail] = useState("");
@@ -25,7 +26,7 @@ const ResetPasswordPage = () => {
     setLoading(true); // Start loading spinner
 
     try {
-      await axios.post("http://localhost:5005/api/users/reset-password", {
+      await axios.post(`${API.user}/api/users/reset-password`, {
         email,
         resetCode,
         newPassword,

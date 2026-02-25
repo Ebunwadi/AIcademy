@@ -4,6 +4,8 @@ import { useNavigate } from "react-router-dom"; // Import navigate hook
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import "../styles/UserProfile.css";
+import { API } from "../config/api";
+import { clearToken, getAuthHeaders, getToken, isAuthError } from "../utils/auth";
 
 const UserProfile = () => {
   const [nickname, setNickname] = useState("");
@@ -14,15 +16,19 @@ const UserProfile = () => {
   useEffect(() => {
     const fetchUser = async () => {
       try {
-        const token = localStorage.getItem("token");
-        const response = await axios.get("http://localhost:5000/api/user/me", {
-          headers: {
-            Authorization: `Bearer ${token}`, // Send the token in the header
-          },
+        const token = getToken();
+        if (!token) {
+          navigate("/login");
+          return;
+        }
+        const response = await axios.get(`${API.core}/api/user/me`, {
+          headers: getAuthHeaders(),
         }); // Fetch user data
         setUser(response.data);
       } catch (error) {
-        console.log(error);
+        if (isAuthError(error)) {
+          clearToken();
+        }
         navigate("/login"); // Redirect to login if unauthenticated
       }
     };
@@ -36,7 +42,7 @@ const UserProfile = () => {
       formData.append("ProfilePicture", profilePicture);
       formData.append("UserID", user.userID);
 
-      await axios.put("http://localhost:5005/api/user/update", formData, {
+      await axios.put(`${API.user}/api/user/update`, formData, {
         headers: { "Content-Type": "multipart/form-data" },
       });
 

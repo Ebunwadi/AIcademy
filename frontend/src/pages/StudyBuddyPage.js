@@ -1,8 +1,11 @@
 import axios from "axios";
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import "../styles/StudyBuddyPage.css"; // Add styles for the page
+import { API } from "../config/api";
+import { clearToken, getAuthHeaders, getToken, isAuthError } from "../utils/auth";
 
 const StudyBuddyPage = () => {
   const [file, setFile] = useState(null);
@@ -10,51 +13,62 @@ const StudyBuddyPage = () => {
   const [notes, setNotes] = useState([]);
   const [selectedNote, setSelectedNote] = useState(null);
   const [quiz, setQuiz] = useState([]);
+  const navigate = useNavigate();
 
-  useEffect(() => {
-    fetchNotes();
-  }, []);
+  const handleAuthFailure = useCallback((error) => {
+    if (isAuthError(error)) {
+      clearToken();
+      navigate("/login");
+      return true;
+    }
+    return false;
+  }, [navigate]);
 
-  const fetchNotes = async () => {
+  const fetchNotes = useCallback(async () => {
     try {
-      const token = localStorage.getItem("token");
-      const response = await axios.get("http://localhost:5000/api/notes", {
-        headers: {
-          Authorization: `Bearer ${token}`, // Send the token in the header
-        },
+      if (!getToken()) {
+        navigate("/login");
+        return;
+      }
+      const response = await axios.get(`${API.core}/api/notes`, {
+        headers: getAuthHeaders(),
       });
       setNotes(response.data.notes);
     } catch (error) {
-      console.log(error);
+      if (handleAuthFailure(error)) return;
       toast.error("Error fetching notes. Please try again.", {
         position: "top-center",
       });
     }
-  };
+  }, [handleAuthFailure, navigate]);
+
+  useEffect(() => {
+    fetchNotes();
+  }, [fetchNotes]);
 
   const handleFileChange = (e) => {
     setFile(e.target.files[0]);
   };
 
   const handleFileUpload = async (e) => {
-    const token = localStorage.getItem("token");
     e.preventDefault();
+    if (!getToken()) {
+      navigate("/login");
+      return;
+    }
     setLoading(true);
     const formData = new FormData();
     formData.append("file", file);
 
     try {
-      await axios.post("http://localhost:5000/api/notes/upload", formData, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-          Authorization: `Bearer ${token}`, // Send the token in the header
-        },
+      await axios.post(`${API.core}/api/notes/upload`, formData, {
+        headers: getAuthHeaders({ "Content-Type": "multipart/form-data" }),
       });
 
       toast.success("File uploaded successfully!", { position: "top-center" });
       fetchNotes(); // Refresh the notes list
     } catch (error) {
-      console.log(error);
+      if (handleAuthFailure(error)) return;
       toast.error("Error uploading file. Please try again.", {
         position: "top-center",
       });
@@ -69,16 +83,17 @@ const StudyBuddyPage = () => {
     if (!window.confirm("Are you sure you want to delete this note?")) return;
 
     try {
-      const token = localStorage.getItem("token");
-      await axios.delete(`http://localhost:5000/api/notes/${noteId}`, {
-        headers: {
-          Authorization: `Bearer ${token}`, // Send the token in the header
-        },
+      if (!getToken()) {
+        navigate("/login");
+        return;
+      }
+      await axios.delete(`${API.core}/api/notes/${noteId}`, {
+        headers: getAuthHeaders(),
       });
       toast.success("Note deleted successfully!", { position: "top-center" });
       fetchNotes(); // Refresh the notes list
     } catch (error) {
-      console.log(error);
+      if (handleAuthFailure(error)) return;
       toast.error("Error deleting note. Please try again.", {
         position: "top-center",
       });
@@ -89,14 +104,14 @@ const StudyBuddyPage = () => {
     setLoading(true);
     setQuiz([]);
     try {
-      const token = localStorage.getItem("token");
+      if (!getToken()) {
+        navigate("/login");
+        return;
+      }
       const response = await axios.post(
-        `http://localhost:5000/api/notes/${noteId}/quiz`,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`, // Send the token in the header
-          },
-        }
+        `${API.core}/api/notes/${noteId}/quiz`,
+        {},
+        { headers: getAuthHeaders() }
       );
       const quizContent = response.data.quiz
         .split("\n")
@@ -104,7 +119,7 @@ const StudyBuddyPage = () => {
         .filter(Boolean); // Parse the quiz
       setQuiz(quizContent);
     } catch (error) {
-      console.log(error);
+      if (handleAuthFailure(error)) return;
       toast.error("Error generating quiz. Please try again.", {
         position: "top-center",
       });

@@ -11,7 +11,14 @@ rf_pipeline = joblib.load('random_forest_career_model.pkl')
 
 # Initialize Flask app
 app = Flask(__name__)
-CORS(app)
+frontend_origins = os.environ.get(
+    "FRONTEND_ORIGINS",
+    "http://localhost:3000,https://aicademy-12mi.onrender.com"
+)
+allowed_frontend_origins = [origin.strip() for origin in frontend_origins.split(",") if origin.strip()]
+CORS(app, origins=allowed_frontend_origins)
+
+core_api_base_url = os.environ.get("CORE_API_BASE_URL", "http://localhost:5000").rstrip("/")
 
 # Load the dataset (adjust the path to your dataset)
 file_path = 'comprehensive_career_guidance_dataset_1000.csv'
@@ -79,7 +86,7 @@ def predict_job_role():
             'predicted_job_role': predicted_job_role
         }
         # Send POST request to Express app to get career advice
-        response = requests.post('http://localhost:5000/api/career/generate-career-advice', json=career_advice_data)
+        response = requests.post(f"{core_api_base_url}/api/career/generate-career-advice", json=career_advice_data)
         if response.status_code == 200:
             career_advice = response.json().get('career_advice', 'No career advice available.')
         else:

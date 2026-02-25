@@ -3,9 +3,22 @@ const fs = require("fs");
 const chunkText = require("../helpers/chunkHelper");
 const extractText = require("../helpers/extractTextHelper");
 const { generateSummary, generateQuiz } = require("../helpers/openAIHelper");
-const prisma = require("@prisma/client").PrismaClient;
+const prismaClient = require("../db/prismaClient");
 
-const prismaClient = new prisma();
+const buildFallbackSummary = (text) => {
+  if (!text || !text.trim()) {
+    return "No readable content was extracted from the uploaded file.";
+  }
+
+  const compactText = text.replace(/\s+/g, " ").trim();
+  const maxLength = 1200;
+  const preview =
+    compactText.length > maxLength
+      ? `${compactText.slice(0, maxLength)}...`
+      : compactText;
+
+  return `AI summary is currently unavailable. Here is a content preview:\n\n${preview}`;
+};
 
 /**
  * Upload a file, generate an AI summary, and save it in the database.
@@ -24,8 +37,20 @@ const uploadAndSummarize = async (req, res) => {
     const extractedText = await extractText(filePath, fileType);
     const textChunks = chunkText(extractedText, 2000);
 
-    // Generate AI summary
-    const finalSummary = await generateSummary(textChunks);
+    // Generate AI summary; if OpenAI is unavailable/quota-limited, fall back
+    // to a local preview summary so upload still succeeds.
+    let finalSummary;
+    let usedFallbackSummary = false;
+    try {
+      finalSummary = await generateSummary(textChunks);
+    } catch (error) {
+      console.warn(
+        "AI summary generation failed, using fallback summary:",
+        error?.message || error
+      );
+      finalSummary = buildFallbackSummary(extractedText);
+      usedFallbackSummary = true;
+    }
 
     // Save note and summary to the database
     const note = await prismaClient.note.create({
@@ -40,6 +65,7 @@ const uploadAndSummarize = async (req, res) => {
     res.status(201).json({
       message: "File uploaded and processed successfully",
       note,
+      usedFallbackSummary,
     });
   } catch (error) {
     console.error("Error processing file:", error);

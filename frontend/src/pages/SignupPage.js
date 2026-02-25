@@ -4,6 +4,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import "../styles/AuthPage.css"; // Styles include the updated green background
+import { API } from "../config/api";
 
 const Signup = () => {
   const [formData, setFormData] = useState({
@@ -25,7 +26,7 @@ const Signup = () => {
     e.preventDefault();
     setLoading(true);
     try {
-      await axios.post("http://localhost:5005/api/auth/signup", formData);
+      await axios.post(`${API.user}/api/auth/signup`, formData);
       toast.success("Signup successful! You can now log in.");
       navigate("/login");
     } catch (error) {

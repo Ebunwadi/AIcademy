@@ -1,6 +1,8 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { Navigate } from "react-router-dom";
+import { API } from "../config/api";
+import { clearToken, getAuthHeaders, getToken, isAuthError } from "../utils/auth";
 
 const ProtectedRoute = ({ children }) => {
   const [authenticated, setAuthenticated] = useState(null);
@@ -8,14 +10,21 @@ const ProtectedRoute = ({ children }) => {
   useEffect(() => {
     const checkAuth = async () => {
       try {
-        const token = localStorage.getItem("token");
-        await axios.get("http://localhost:5000/api/user/me", {
-          headers: {
-            Authorization: `Bearer ${token}`, // Send the token in the header
-          },
+        const token = getToken();
+        if (!token) {
+          setAuthenticated(false);
+          return;
+        }
+
+        await axios.get(`${API.core}/api/user/me`, {
+          headers: getAuthHeaders(),
         });
         setAuthenticated(true);
-      } catch {
+      } catch (error) {
+        // Clear stale/invalid tokens so app does not repeatedly send bad auth headers.
+        if (isAuthError(error)) {
+          clearToken();
+        }
         setAuthenticated(false);
       }
     };

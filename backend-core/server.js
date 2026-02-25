@@ -1,4 +1,5 @@
 require("dotenv").config();
+require("dotenv").config({ path: "prisma/.env", override: false });
 const express = require("express");
 const cors = require("cors");
 const cookieParser = require("cookie-parser");
@@ -8,9 +9,24 @@ const noteRoutes = require("./routes/noteRoutes");
 const careerRoutes = require("./routes/careerRoutes");
 
 const app = express();
-// Allow requests from the frontend
+// Allow requests from local dev and production frontends.
+// Override with FRONTEND_ORIGINS="http://localhost:3000,https://example.com"
+const allowedOrigins = (
+  process.env.FRONTEND_ORIGINS ||
+  "http://localhost:3000,https://aicademy-12mi.onrender.com"
+)
+  .split(",")
+  .map((origin) => origin.trim())
+  .filter(Boolean);
+
 const corsOptions = {
-  origin: "https://aicademy-12mi.onrender.com",
+  origin: (origin, callback) => {
+    // Allow non-browser clients (no origin header) and whitelisted origins
+    if (!origin || allowedOrigins.includes(origin)) {
+      return callback(null, true);
+    }
+    return callback(new Error(`Not allowed by CORS: ${origin}`));
+  },
   credentials: true, // Allow cookies and credentials
 };
 // Middleware

@@ -4,6 +4,7 @@ import Select from "react-select";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css"; // Import the Toastify CSS
 import "../styles/JobRecommendationForm.css";
+import { API } from "../config/api";
 
 const JobRecommendationForm = () => {
   const [skills, setSkills] = useState([]); // User's selected skills
@@ -19,7 +20,7 @@ const JobRecommendationForm = () => {
   useEffect(() => {
     const fetchSkills = async () => {
       try {
-        const response = await axios.get("http://localhost:5003/api/skills");
+        const response = await axios.get(`${API.ai}/api/skills`);
         setAllSkills(response.data);
       } catch (error) {
         console.error("Error fetching skills:", error);
@@ -50,7 +51,7 @@ const JobRecommendationForm = () => {
     try {
       // Make a single API request to Flask, which handles both the job role prediction and career advice
       const response = await axios.post(
-        "http://localhost:5003/api/career/predict-job-role",
+        `${API.ai}/api/career/predict-job-role`,
         data
       );
 

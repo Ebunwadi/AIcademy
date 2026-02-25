@@ -6,6 +6,8 @@ using FluentValidation.AspNetCore;
 
 
 var builder = WebApplication.CreateBuilder(args);
+var allowedOrigins = builder.Configuration.GetSection("Cors:AllowedOrigins").Get<string[]>()
+    ?? new[] { "https://aicademy-12mi.onrender.com", "http://localhost:5000", "http://localhost:3000" };
 
 //Add DAL and BLL services
 builder.Services.AddDataAccessLayer(builder.Configuration);
@@ -19,8 +21,8 @@ builder.Services.AddFluentValidationAutoValidation();
 
 //Cors
 builder.Services.AddCors(options => {
-    options.AddDefaultPolicy(builder => {
-        builder.WithOrigins("https://aicademy-12mi.onrender.com", "http://localhost:5000", "http://localhost:3000")
+    options.AddDefaultPolicy(policy => {
+        policy.WithOrigins(allowedOrigins)
         .AllowAnyMethod()
         .AllowAnyHeader()
         .AllowCredentials();
